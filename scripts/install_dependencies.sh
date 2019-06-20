@@ -90,7 +90,7 @@ if [ $ARCH == "darwin" ]; then
         pkg-config python3 libusb libftdi gnu-sed wget \
         qt5 boost boost-python3 eigen"
   # brew install --force $DEPS
-  brew upgrade python
+  # brew upgrade python
   brew unlink $DEPS && brew link --force $DEPS
   qt_ver=$(ls -1 /usr/local/Cellar/qt5/ | head -n 1)
   echo "detected qt version ${qt_ver}"
