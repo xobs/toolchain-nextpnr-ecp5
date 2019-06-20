@@ -8,23 +8,23 @@ matrix:
     addons:
       homebrew:
         packages:
-          - bison
-          - flex
-          - gawk
-          - libffi
-          - git
-          - mercurial
-          - graphviz
-          - pkg-config
-          - python3
-          - libusb
-          - libftdi
-          - gnu-sed
-          - wget
-          - qt5
-          - boost
-          - boost-python3
-          - eigen
+        - bison
+        - flex
+        - gawk
+        - libffi
+        - git
+        - mercurial
+        - graphviz
+        - pkg-config
+        - python3
+        - libusb
+        - libftdi
+        - gnu-sed
+        - wget
+        - qt5
+        - boost
+        - boost-python3
+        - eigen
   - os: linux
     env: TARGET=linux_x86_64
   # - os: linux
