@@ -23,6 +23,11 @@ cd $BUILD_DIR/$NEXTPNR
 mkdir icebox
 cp -v ../icestorm/icefuzz/*.txt icebox/
 cp -v ../icestorm/icebox/*.txt icebox/
+if [ -e CMakeCache.txt ]
+then
+  echo "CMakeCache.txt exists!"
+fi
+rm -f CMakeCache.txt
 
 # -- Compile it
 if [ $ARCH == "darwin" ]; then
