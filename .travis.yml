@@ -14,7 +14,6 @@ matrix:
           - gawk
           - libffi
           - git
-          - mercurial
           - graphviz
           - pkg-config
           - python3
