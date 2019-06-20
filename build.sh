@@ -21,7 +21,7 @@ NAME=toolchain-icestorm
 # -- Debug flags
 INSTALL_DEPS=1
 COMPILE_ICESTORM=1
-COMPILE_ARACHNE=1
+COMPILE_NEXTPNR_ICE40=1
 COMPILE_YOSYS=1
 COMPILE_ICOTOOLS=1
 CREATE_PACKAGE=1
@@ -115,6 +115,14 @@ if [ $COMPILE_ARACHNE == "1" ]; then
 
   print ">> Compile arachne-pnr"
   . $WORK_DIR/scripts/compile_arachnepnr.sh
+
+fi
+
+# --------- Compile nextpnr ------------------------------------
+if [ $COMPILE_NEXTPNR_ICE40 == "1" ]; then
+
+  print ">> Compile nextpnr-ice40"
+  . $WORK_DIR/scripts/compile_nextpnr-ice40.sh
 
 fi
 
