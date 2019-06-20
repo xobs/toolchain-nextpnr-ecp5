@@ -79,17 +79,17 @@ if [ $ARCH == "windows_amd64" ]; then
 fi
 
 if [ $ARCH == "darwin" ]; then
-  which -s brew
-  if [[ $? != 0 ]] ; then
-    # Install Homebrew
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  else
-    brew update
-  fi
+  # which -s brew
+  # if [[ $? != 0 ]] ; then
+  #   # Install Homebrew
+  #   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  # else
+  #   brew update
+  # fi
   DEPS="bison flex gawk libffi git mercurial graphviz \
         pkg-config python3 libusb libftdi gnu-sed wget \
         qt5 boost boost-python3 eigen"
-  brew install --force $DEPS
+  # brew install --force $DEPS
   brew upgrade python
   brew unlink $DEPS && brew link --force $DEPS
   qt_ver=$(ls -1 /usr/local/Cellar/qt5/ | head -n 1)

@@ -28,16 +28,11 @@ cp -v ../icestorm/icebox/*.txt icebox/
 if [ $ARCH == "darwin" ]; then
   cmake -DARCH=ice40 -DICEBOX_ROOT="./icebox" -DSTATIC_BUILD=ON -DBUILD_HEAP=ON .
   make -j$J CXX="$CXX" LIBS="-lm"
-  find .
 else
   cmake -DARCH=ice40 -DICEBOX_ROOT="./icebox" -DBUILD_HEAP=ON .
   make -j$J CXX="$CXX" LIBS="-static -static-libstdc++ -static-libgcc -lm"
-  find .
 fi || exit 1
 
 # -- Copy the executable to the bin dir
-cp bin/nextpnr-ice40 $PACKAGE_DIR/$NAME/bin/nextpnr-ice40$EXE
-
-# -- Copy the chipdb*.bin data files
-mkdir -p $PACKAGE_DIR/$NAME/share/$NEXTPNR
-cp -r share/$NEXTPNR/chipdb*.bin $PACKAGE_DIR/$NAME/share/$NEXTPNR
+mkdir -p $PACKAGE_DIR/$NAME/bin
+cp nextpnr-ice40$EXE $PACKAGE_DIR/$NAME/bin/nextpnr-ice40$EXE

@@ -17,6 +17,26 @@ matrix:
   #   env: TARGET=windows_x86
   # - os: linux
   #   env: TARGET=windows_amd64
+addons:
+  homebrew:
+    packages:
+      - bison
+      - flex
+      - gawk
+      - libffi
+      - git
+      - mercurial
+      - graphviz
+      - pkg-config
+      - python3
+      - libusb
+      - libftdi
+      - gnu-sed
+      - wget
+      - qt5
+      - boost
+      - boost-python3
+      - eigen
 before_script:
 - if [[ ${TARGET:0:7} == "windows" ]]; then sudo dpkg --add-architecture i386; fi
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test; fi
