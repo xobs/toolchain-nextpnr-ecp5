@@ -1,7 +1,7 @@
 # -- Compile nextpnr-ice40 script
 
 NEXTPNR=nextpnr
-COMMIT=dc549cd56bf1db4342a2bab1fb3fc04ca3a9ceea
+COMMIT=29adacf18eaaad7e38ec5b2dd9d1f6ccf9c70c18
 GITNEXTPNR=https://github.com/YosysHQ/nextpnr
 
 # -- Setup
@@ -26,10 +26,10 @@ cp -v ../icestorm/icebox/*.txt icebox/
 
 # -- Compile it
 if [ $ARCH == "darwin" ]; then
-  cmake -DARCH=ice40 -DICEBOX_ROOT="./icebox" .
+  cmake -DARCH=ice40 -DICEBOX_ROOT="./icebox" -DSTATIC_BUILD=ON -DBUILD_HEAP=ON .
   make -j$J CXX="$CXX" LIBS="-lm"
 else
-  cmake -DARCH=ice40 -DICEBOX_ROOT="./icebox" .
+  cmake -DARCH=ice40 -DICEBOX_ROOT="./icebox" -DSTATIC_BUILD=ON -DBUILD_HEAP=ON .
   make -j$J CXX="$CXX" LIBS="-static -static-libstdc++ -static-libgcc -lm"
 fi || exit 1
 
