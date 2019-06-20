@@ -5,7 +5,7 @@
 if [ $ARCH == "linux_x86_64" ]; then
   sudo apt-get install -y build-essential bison flex libreadline-dev \
                           gawk tcl-dev libffi-dev git mercurial graphviz \
-                          xdot pkg-config python3.6-dev qt5-default $BOOST \
+                          xdot pkg-config python3.6-dev qt5-default libqt5opengl5-dev $BOOST \
                           gcc-5 g++-5
   sudo apt-get autoremove -y
   sudo update-alternatives \
@@ -18,7 +18,7 @@ fi
 if [ $ARCH == "linux_i686" ]; then
   sudo apt-get install -y build-essential bison flex libreadline-dev \
                           gawk tcl-dev libffi-dev git mercurial graphviz \
-                          xdot pkg-config python3.6-dev qt5-default $BOOST \
+                          xdot pkg-config python3.6-dev qt5-default libqt5opengl5-dev $BOOST \
                           gcc-5-multilib g++-5-multilib
   sudo apt-get autoremove -y
   sudo update-alternatives \
@@ -31,7 +31,7 @@ fi
 if [ $ARCH == "linux_armv7l" ]; then
   sudo apt-get install -y build-essential bison flex libreadline-dev \
                           gawk tcl-dev libffi-dev git mercurial graphviz \
-                          xdot pkg-config python3.6-dev qt5-default $BOOST \
+                          xdot pkg-config python3.6-dev qt5-default libqt5opengl5-dev $BOOST \
                           gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf \
                           binfmt-support qemu-user-static
   sudo apt-get autoremove -y
@@ -42,7 +42,7 @@ fi
 if [ $ARCH == "linux_aarch64" ]; then
   sudo apt-get install -y build-essential bison flex libreadline-dev \
                           gawk tcl-dev libffi-dev git mercurial graphviz \
-                          xdot pkg-config python3.6-dev qt5-default $BOOST \
+                          xdot pkg-config python3.6-dev qt5-default libqt5opengl5-dev $BOOST \
                           gcc-aarch64-linux-gnu g++-aarch64-linux-gnu \
                           binfmt-support qemu-user-static
   sudo apt-get autoremove -y
@@ -53,7 +53,7 @@ fi
 if [ $ARCH == "windows_x86" ]; then
   sudo apt-get install -y build-essential bison flex libreadline-dev \
                           gawk tcl-dev libffi-dev git mercurial graphviz \
-                          xdot pkg-config python3.6-dev qt5-default $BOOST \
+                          xdot pkg-config python3.6-dev qt5-default libqt5opengl5-dev $BOOST \
                           gcc-5-mingw-w64 gc++-5-mingw-w64 wine
                           #mingw-w64 mingw-w64-tools
   sudo apt-get autoremove -y
@@ -67,7 +67,7 @@ fi
 if [ $ARCH == "windows_amd64" ]; then
   sudo apt-get install -y build-essential bison flex libreadline-dev \
                           gawk tcl-dev libffi-dev git mercurial graphviz \
-                          xdot pkg-config python3.6-dev qt5-default $BOOST \
+                          xdot pkg-config python3.6-dev qt5-default libqt5opengl5-dev $BOOST \
                           gcc-5-mingw-w64 gc++-5-mingw-w64 wine
                           #mingw-w64 mingw-w64-tools
   sudo apt-get autoremove -y
@@ -91,6 +91,7 @@ if [ $ARCH == "darwin" ]; then
   brew install --force $DEPS
   brew upgrade python
   brew unlink $DEPS && brew link --force $DEPS
+  brew link --force qt5 && ln -s /usr/local/Cellar/qt5/5.12.3/mkspecs /usr/local/mkspecs && ln -s /usr/local/Cellar/qt5/5.12.3/plugins /usr/local/plugins
 else
   cp $WORK_DIR/build-data/lib/$ARCH/libftdi1.a $WORK_DIR/build-data/lib/$ARCH/libftdi.a
 fi
