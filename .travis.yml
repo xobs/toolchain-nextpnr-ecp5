@@ -4,8 +4,6 @@ language: cpp
 matrix:
   include:
   - os: osx
-    compiler: clang
-    osx_image: xcode10.1
     env: TARGET=darwin
     addons:
       homebrew:
