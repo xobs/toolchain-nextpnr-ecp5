@@ -38,7 +38,7 @@ elif [ ${ARCH:0:7} == "windows" ]; then
   make -j$J CXX="$CXX" LIBS="-static -static-libstdc++ -static-libgcc -lm"
 else
   cmake -DARCH=ice40 -DICEBOX_ROOT="./icebox" -DBUILD_HEAP=ON -DBUILD_GUI=OFF .
-  make -j$J CXX="$CXX" LIBS="-static -static-libstdc++ -static-libgcc -lm -static-libpython3.5m"
+  make -j$J CXX="$CXX" LIBS="-static -static-libstdc++ -static-libgcc -lm -static-libpython3.5m -static-libboost_python-py35 -static-libboost_filesystem -static-libboost_program_options -static-libboost_system"
 fi || exit 1
 
 # -- Copy the executable to the bin dir
