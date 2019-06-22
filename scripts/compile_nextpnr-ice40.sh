@@ -37,7 +37,7 @@ elif [ ${ARCH:0:7} == "windows" ]; then
   cmake -DARCH=ice40 -DICEBOX_ROOT="./icebox" -DBUILD_HEAP=ON -DCMAKE_SYSTEM_NAME=Windows .
   make -j$J CXX="$CXX" LIBS="-static -static-libstdc++ -static-libgcc -lm"
 else
-  cmake -DARCH=ice40 -DICEBOX_ROOT="./icebox" -DBUILD_HEAP=ON .
+  cmake -DARCH=ice40 -DICEBOX_ROOT="./icebox" -DBUILD_HEAP=ON -DSTATIC_BUILD=ON .
   make -j$J CXX="$CXX" LIBS="-static -static-libstdc++ -static-libgcc -lm"
 fi || exit 1
 
