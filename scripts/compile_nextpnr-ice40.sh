@@ -31,7 +31,7 @@ rm -f CMakeCache.txt
 
 # -- Compile it
 if [ $ARCH == "darwin" ]; then
-  cmake -DARCH=ice40 -DICEBOX_ROOT="./icebox" -DSTATIC_BUILD=ON -DBUILD_HEAP=ON .
+  cmake -DARCH=ice40 -DICEBOX_ROOT="./icebox" -DSTATIC_BUILD=ON -DBUILD_HEAP=ON -DBUILD_GUI=OFF .
   make -j$J CXX="$CXX" LIBS="-lm"
 elif [ ${ARCH:0:7} == "windows" ]; then
   cmake -DARCH=ice40 -DICEBOX_ROOT="./icebox" -DBUILD_HEAP=ON -DCMAKE_SYSTEM_NAME=Windows .
