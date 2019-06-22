@@ -37,8 +37,8 @@ elif [ ${ARCH:0:7} == "windows" ]; then
   cmake -DARCH=ice40 -DICEBOX_ROOT="./icebox" -DBUILD_HEAP=ON -DCMAKE_SYSTEM_NAME=Windows -DBUILD_GUI=OFF -DSTATIC_BUILD=ON .
   make -j$J CXX="$CXX" LIBS="-static -static-libstdc++ -static-libgcc -lm"
 else
-  cmake -DARCH=ice40 -DICEBOX_ROOT="./icebox" -DBUILD_HEAP=ON -DSTATIC_BUILD=ON -DBUILD_GUI=OFF .
-  make -j$J CXX="$CXX" LIBS="-static -static-libstdc++ -static-libgcc -lm"
+  cmake -DARCH=ice40 -DICEBOX_ROOT="./icebox" -DBUILD_HEAP=ON -DBUILD_GUI=OFF .
+  make -j$J CXX="$CXX" LIBS="-static -static-libstdc++ -static-libgcc -lm -static-libpython3.5m"
 fi || exit 1
 
 # -- Copy the executable to the bin dir
