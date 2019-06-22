@@ -5,8 +5,8 @@
 if [ $ARCH == "linux_x86_64" ]; then
   sudo apt-get install -y build-essential bison flex libreadline-dev \
                           gawk tcl-dev libffi-dev git mercurial graphviz \
-                          xdot pkg-config python3.6-dev qt5-default libqt5opengl5-dev $BOOST \
-                          gcc-5 g++-5 libeigen3-dev qtbase5-dev libpython3.6-dev
+                          xdot pkg-config python3.5-dev qt5-default libqt5opengl5-dev $BOOST \
+                          gcc-5 g++-5 libeigen3-dev qtbase5-dev libpython3.5-dev
   sudo apt-get autoremove -y
   sudo update-alternatives \
     --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 \
@@ -18,8 +18,8 @@ fi
 if [ $ARCH == "linux_i686" ]; then
   sudo apt-get install -y build-essential bison flex libreadline-dev \
                           gawk tcl-dev libffi-dev git mercurial graphviz \
-                          xdot pkg-config python3.6-dev qt5-default libqt5opengl5-dev $BOOST \
-                          gcc-5-multilib g++-5-multilib libeigen3-dev qtbase5-dev libpython3.6-dev
+                          xdot pkg-config python3.5-dev qt5-default libqt5opengl5-dev $BOOST \
+                          gcc-5-multilib g++-5-multilib libeigen3-dev qtbase5-dev libpython3.5-dev
   sudo ln -s /usr/include/asm-generic /usr/include/asm
   sudo apt-get autoremove -y
   sudo update-alternatives \
@@ -32,9 +32,9 @@ fi
 if [ $ARCH == "linux_armv7l" ]; then
   sudo apt-get install -y build-essential bison flex libreadline-dev \
                           gawk tcl-dev libffi-dev git mercurial graphviz \
-                          xdot pkg-config python3.6-dev qt5-default libqt5opengl5-dev $BOOST \
+                          xdot pkg-config python3.5-dev qt5-default libqt5opengl5-dev $BOOST \
                           gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf \
-                          binfmt-support qemu-user-static libeigen3-dev qtbase5-dev libpython3.6-dev
+                          binfmt-support qemu-user-static libeigen3-dev qtbase5-dev libpython3.5-dev
   sudo apt-get autoremove -y
   arm-linux-gnueabihf-gcc --version
   arm-linux-gnueabihf-g++ --version
@@ -43,9 +43,9 @@ fi
 if [ $ARCH == "linux_aarch64" ]; then
   sudo apt-get install -y build-essential bison flex libreadline-dev \
                           gawk tcl-dev libffi-dev git mercurial graphviz \
-                          xdot pkg-config python3.6-dev qt5-default libqt5opengl5-dev $BOOST \
+                          xdot pkg-config python3.5-dev qt5-default libqt5opengl5-dev $BOOST \
                           gcc-aarch64-linux-gnu g++-aarch64-linux-gnu \
-                          binfmt-support qemu-user-static libeigen3-dev qtbase5-dev libpython3.6-dev
+                          binfmt-support qemu-user-static libeigen3-dev qtbase5-dev libpython3.5-dev
   sudo apt-get autoremove -y
   aarch64-linux-gnu-gcc --version
   aarch64-linux-gnu-g++ --version
@@ -54,8 +54,8 @@ fi
 if [ $ARCH == "windows_x86" ]; then
   sudo apt-get install -y build-essential bison flex libreadline-dev \
                           gawk tcl-dev libffi-dev git mercurial graphviz \
-                          xdot pkg-config python3.6-dev qt5-default libqt5opengl5-dev $BOOST \
-                          gcc-5-mingw-w64 gc++-5-mingw-w64 wine libeigen3-dev qtbase5-dev libpython3.6-dev
+                          xdot pkg-config python3.5-dev qt5-default libqt5opengl5-dev $BOOST \
+                          gcc-5-mingw-w64 gc++-5-mingw-w64 wine libeigen3-dev qtbase5-dev libpython3.5-dev
                           #mingw-w64 mingw-w64-tools
   sudo apt-get autoremove -y
   sudo update-alternatives \
@@ -68,8 +68,8 @@ fi
 if [ $ARCH == "windows_amd64" ]; then
   sudo apt-get install -y build-essential bison flex libreadline-dev \
                           gawk tcl-dev libffi-dev git mercurial graphviz \
-                          xdot pkg-config python3.6-dev qt5-default libqt5opengl5-dev $BOOST \
-                          gcc-5-mingw-w64 gc++-5-mingw-w64 wine libeigen3-dev qtbase5-dev libpython3.6-dev
+                          xdot pkg-config python3.5-dev qt5-default libqt5opengl5-dev $BOOST \
+                          gcc-5-mingw-w64 gc++-5-mingw-w64 wine libeigen3-dev qtbase5-dev libpython3.5-dev
                           #mingw-w64 mingw-w64-tools
   sudo apt-get autoremove -y
   sudo update-alternatives \
