@@ -9,41 +9,34 @@ matrix:
       homebrew:
         update: true
         packages:
-          - bison
-          - flex
-          - gawk
-          - libffi
-          - git
-          - python3
-          - pkg-config
-          - libusb
-          - libftdi
-          - gnu-sed
-          - wget
-          - qt5
-          - boost
-          - boost-python3
-          - eigen
+        - bison
+        - flex
+        - gawk
+        - libffi
+        - git
+        - python3
+        - pkg-config
+        - libusb
+        - libftdi
+        - gnu-sed
+        - wget
+        - qt5
+        - boost
+        - boost-python3
+        - eigen
   - os: linux
     env: TARGET=linux_x86_64
-  # - os: linux
-  #   env: TARGET=linux_i686
-  # - os: linux
-  #   env: TARGET=linux_armv7l
-  # - os: linux
-  #   env: TARGET=linux_aarch64
-  # - os: linux
-  #   env: TARGET=windows_x86
-  # - os: linux
-  #   env: TARGET=windows_amd64
 before_script:
 - if [[ ${TARGET:0:7} == "windows" ]]; then sudo dpkg --add-architecture i386; fi
 - if [[ "$ARCH" == "linux_i686" ]]; then sudo dpkg --add-architecture i386; fi
 - if [[ "$ARCH" == "linux_armv7l" ]]; then sudo dpkg --add-architecture armhf; fi
 - if [[ "$ARCH" == "linux_aarch64" ]]; then sudo dpkg --add-architecture arm64; fi
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test; fi
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo add-apt-repository -y ppa:tes/ams; fi
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo add-apt-repository -y ppa:deadsnakes/ppa; fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test;
+  fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo add-apt-repository -y ppa:tes/ams;
+  fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo add-apt-repository -y ppa:deadsnakes/ppa;
+  fi
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -y -qq; fi
 script:
 - bash build.sh $TARGET
@@ -51,7 +44,7 @@ script:
 deploy:
   provider: releases
   api_key:
-    secure: Mhf7VNrFipZRp+cghK6kK27NhlSVVPTheEelJ7ItgcCfigYtaPwW9xwZb2tjqEdqLeE4o3rmOhYCTXX07ZyF6WwDj68TqJUKa+hvvA+z9akqB3GAGfcdoWWtP7jyXuqE6FNRAapkcTXXwIKZQ89GA0wVq5RY/PXGxa8AwG8mg1FOiEIZgRE3aGeo0wL2Vxuyvd610UHYSuAH29+QcsUZslSFzXURlPUZhMBu4vK/sqUGR8nOzybZm1V2TjANWtCYAVLPh/ZZjUZGNd0OS0KF2inYml6/gedR2r9YZervs5U6Ps3ICvntaHOktJtmKcBl9LTtRnFnfaiOR9FOiAwtxgW7DcRIuGVkB6LQDYhvC2UVaIFjhBCSQfsOX6DnC7Oxmf1vLTYjwC9ymbSZhY8TB/bvgmLNY8c7ge4rnMQPQEyeIzmYQJbskfE/g9YwgVJPIuKYkEOm1FMLpZO7G6XUvQr4vY9zY68DX2eA9CEZQTTzA+HUA05J7ScdX2yitpgavnOZ5gUTAJXPbLZuLbbEd+EPhu8cHHU0W7ykEOc6Atj2JiDwSAO4Xi2dOV7QMz0M9Ak0fpOThbg+l8d3qqDIC6+J00ENEU8H4mNJHTwi19iu+La1G5k1ShCWWgeDf4ygv7ROuxujRnjq4TY/YW3clYttzteOefnnTH8JK5f5oTM=
+    secure: swu6RuUbgHaOjRGHd6EYXfjq+aaLDAgJtsqk2F7Fyz3rXv+me1B/3YTb3wqc6elvobqnA5XuY+CUVv4CxcLLskvU6my1DWI2nURN85gsAWs9YQyr0cvNd7MnPHG+eTpzla1Zro5sHBTw+EnraG5cqEO2+U6d2cvkwXenhsOrKDBAp7V93im6csk1DYwkkmon4ppHwdScF/jNfGSaOMcPwh1oNjL+pfZTzrgjpEYdmz7hnLMcYR++oDSs3escM79+j+vqQpOjzJyJgXP7SIprtHB6S9N8nu08fEmSD4Ide2io6dx9IOechnuLaGx3IYYdSzlLzWhIaX0oS0vb2BzYJwDpj9r6AZ6diMaeE2ketx92CxTNsSmE69Sd82AHbHDEHBGtvQB4PrMftE7sF0RqlP8LULaV35nZA2/V/K2A0btLZq14k9r70uGt/7EDtxs+IzxAgcrZzR8/fX5GwAQDmvMkoCS9dCBw5Ew2/Q50lh7sR1TGIreqxgRu4/jQ7GVm5m0dYr2Wv7ErdxBptRO9T4WNKK/QQfipmyBGi92SMiXvU2lLFXbBZM7JNKAuVlkoN5LF2D2KSC/SG4hh6g3kluUgNIHtI/UBXGM6pFrJuWQMBWVYD0ExoH3smMPYBHmuEq2MryxzM4Ak5+3Ib/s85rIkUODyFdE0c5CVOmsEaGg=
   file: _packages/**/*.tar.gz
   file_glob: true
   skip_cleanup: true
