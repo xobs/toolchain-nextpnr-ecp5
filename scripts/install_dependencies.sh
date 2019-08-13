@@ -88,14 +88,9 @@ if [ $ARCH == "darwin" ]; then
   #   brew update
   # fi
   DEPS="bison flex gawk libffi git mercurial graphviz \
-        pkg-config python3 libusb libftdi gnu-sed wget \
-        qt5 boost boost-python3 eigen"
+        pkg-config python3 libusb gnu-sed wget \
+        boost boost-python3 eigen"
   # brew install --force $DEPS
   # brew upgrade python
   brew unlink $DEPS && brew link --force $DEPS
-  qt_ver=$(ls -1 /usr/local/Cellar/qt5/ | head -n 1)
-  echo "detected qt version ${qt_ver}"
-  brew link --force qt5 && ln -s /usr/local/Cellar/qt5/${qt_ver}/mkspecs /usr/local/mkspecs && ln -s /usr/local/Cellar/qt5/${qt_ver}/plugins /usr/local/plugins
-else
-  cp $WORK_DIR/build-data/lib/$ARCH/libftdi1.a $WORK_DIR/build-data/lib/$ARCH/libftdi.a
 fi

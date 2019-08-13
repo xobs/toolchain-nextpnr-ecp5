@@ -1,8 +1,8 @@
 # -- Compile Yosys script
 
-REL=1 # 1: load from release tag. 0: load from source code
+REL=0 # 1: load from release tag. 0: load from source code
 
-VER=0.8
+VER=78b30bbb1102047585d1a2eac89b1c7f5ca7344e
 YOSYS=yosys-yosys-$VER
 TAR_YOSYS=yosys-$VER.tar.gz
 REL_YOSYS=https://github.com/cliffordwolf/yosys/archive/$TAR_YOSYS
@@ -23,6 +23,7 @@ else
   git clone --depth=1 $GIT_YOSYS $YOSYS
   git -C $YOSYS pull
   echo ""
+  git -C $YOSYS reset --hard $VER
   git -C $YOSYS log -1
 fi
 

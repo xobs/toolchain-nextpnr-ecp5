@@ -23,8 +23,8 @@ INSTALL_DEPS=1
 COMPILE_ARACHNE=0
 COMPILE_ICESTORM=1
 COMPILE_NEXTPNR_ICE40=1
-COMPILE_YOSYS=0
-COMPILE_ICOTOOLS=0
+COMPILE_YOSYS=1
+COMPILE_ICOTOOLS=1
 CREATE_PACKAGE=1
 
 # -- Store current dir
@@ -45,7 +45,7 @@ mkdir -p $UPSTREAM_DIR
 
 # -- Fix broken Homebrew on Darwin
 # https://github.com/Homebrew/legacy-homebrew/issues/29938#issuecomment-54896169
-export PATH=/usr/local/opt/qt5/bin:$PATH
+# export PATH=/usr/local/opt/qt5/bin:$PATH
 
 # -- Test script function
 function test_bin {
