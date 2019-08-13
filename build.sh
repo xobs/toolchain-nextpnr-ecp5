@@ -20,11 +20,8 @@ NAME=toolchain-icestorm
 
 # -- Debug flags
 INSTALL_DEPS=1
-COMPILE_ARACHNE=0
 COMPILE_ICESTORM=1
 COMPILE_NEXTPNR_ICE40=1
-COMPILE_YOSYS=0
-COMPILE_ICOTOOLS=0
 CREATE_PACKAGE=1
 
 # -- Store current dir
@@ -115,39 +112,11 @@ if [ $COMPILE_ICESTORM == "1" ]; then
 
 fi
 
-# --------- Compile arachne-pnr ------------------------------------
-if [ $COMPILE_ARACHNE == "1" ]; then
-
-  print ">> Compile arachne-pnr"
-  . $WORK_DIR/scripts/compile_arachnepnr.sh
-
-fi
-
 # --------- Compile nextpnr ------------------------------------
 if [ $COMPILE_NEXTPNR_ICE40 == "1" ]; then
 
   print ">> Compile nextpnr-ice40"
   . $WORK_DIR/scripts/compile_nextpnr-ice40.sh
-
-fi
-
-# --------- Compile yosys ------------------------------------------
-if [ $COMPILE_YOSYS == "1" ]; then
-
-  print ">> Compile yosys"
-  . $WORK_DIR/scripts/compile_yosys.sh
-
-fi
-
-# --------- Compile icotools ----------------------------------------
-if [ $COMPILE_ICOTOOLS == "1" ]; then
-
-  if [ $ARCH == "linux_armv7l" ]; then
-
-    print ">> Compile icotools for RPI"
-    . $WORK_DIR/scripts/compile_icotools.sh
-
-  fi
 
 fi
 
