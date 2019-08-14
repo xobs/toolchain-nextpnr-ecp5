@@ -19,24 +19,24 @@ environment:
 #      RUST_VERSION: nightly
 
 install:
-  - ps: >-
+  - ps: |
       If ($Env:TARGET -eq 'x86_64-pc-windows-gnu') {
         $Env:PATH += ';C:\msys64\mingw64\bin'
       } ElseIf ($Env:TARGET -eq 'i686-pc-windows-gnu') {
         $Env:PATH += ';C:\msys64\mingw32\bin'
       }
-  - cd C:\tools\vcpkg
-  - git checkout d82f37b4bfc1422d4601fbb63cbd553c925f7014
-  - vcpkg integrate install
-  - vcpkg install boost-filesystem:x64-windows boost-program-options:x64-windows boost-thread:x64-windows boost-python:x64-windows qt5-base:x64-windows eigen3:x64-windows
-  - cd C:\tools
-  - Invoke-WebRequest -uri https://www.python.org/ftp/python/3.6.4/python-3.6.4-embed-amd64.zip -OutFile python-3.6.4-embed-amd64.zip
-  - [System.IO.Compression.ZipFile]::ExtractToDirectory("../python-3.6.4-embed-amd64.zip", "Python364")
-  - cd %APPVEYOR_BUILD_FOLDER%
-  - git clone https://github.com/YosysHQ/nextpnr.git
-  - cd nextpnr
-  - git checkout 3f26cf50767143e48d29ae691b2a0052c359eb15
-  - [System.IO.Compression.ZipFile]::ExtractToDirectory("C:/tools/Python364/python36.zip", "Lib")
+      cd C:\tools\vcpkg
+      git checkout d82f37b4bfc1422d4601fbb63cbd553c925f7014
+      vcpkg integrate install
+      vcpkg install boost-filesystem:x64-windows boost-program-options:x64-windows boost-thread:x64-windows boost-python:x64-windows qt5-base:x64-windows eigen3:x64-windows
+      cd C:\tools
+      Invoke-WebRequest -uri https://www.python.org/ftp/python/3.6.4/python-3.6.4-embed-amd64.zip -OutFile python-3.6.4-embed-amd64.zip
+      [System.IO.Compression.ZipFile]::ExtractToDirectory("../python-3.6.4-embed-amd64.zip", "Python364")
+      cd %APPVEYOR_BUILD_FOLDER%
+      git clone https://github.com/YosysHQ/nextpnr.git
+      cd nextpnr
+      git checkout 3f26cf50767143e48d29ae691b2a0052c359eb15
+      [System.IO.Compression.ZipFile]::ExtractToDirectory("C:/tools/Python364/python36.zip", "Lib")
 
 # # TODO This is the "test phase", tweak it as you see fit
 # test_script:
