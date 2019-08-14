@@ -30,6 +30,27 @@ install:
       cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ice40 "-DICEBOX_ROOT=$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/icebox" -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static -G "Visual Studio 15 2017 Win64" -DPYTHON_EXECUTABLE=C:/tools/Python364/python.exe  -DSTATIC_BUILD=ON -DBUILD_GUI=OFF .
       cmake --build . --config Release
 
+      $SRC_DIR = $($env:APPVEYOR_BUILD_FOLDER)\nextpnr\Release
+      $STAGE = [System.Guid]::NewGuid().ToString()
+
+      Set-Location $ENV:Temp
+      New-Item -Type Directory -Name $STAGE
+      Set-Location $STAGE
+
+      $ZIP = "$SRC_DIR\nextpnr-$($Env:APPVEYOR_REPO_TAG_NAME)-windows_amd64.zip"
+
+      # TODO Update this to package the right artifacts
+      Copy-Item "$SRC_DIR\release\*.exe" '.\'
+
+      [System.IO.Compression.ZipFile]::CreateFromDirectory($STAGE, $ZIP)
+
+      Push-AppveyorArtifact "$ZIP"
+
+      Remove-Item *.* -Force
+      Set-Location ..
+      Remove-Item $STAGE
+      Set-Location $SRC_DIR
+
 # # TODO This is the "test phase", tweak it as you see fit
 # test_script:
 #   # we don't run the "test phase" when doing deploys
