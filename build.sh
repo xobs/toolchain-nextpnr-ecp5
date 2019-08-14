@@ -16,7 +16,7 @@ ARCH=$1
 TARGET_ARCHS="linux_x86_64 linux_i686 linux_armv7l linux_aarch64 darwin"
 
 # -- Toolchain name
-NAME=toolchain-icestorm
+NAME=toolchain-nextpnr-ice40
 
 # -- Debug flags
 INSTALL_DEPS=1
