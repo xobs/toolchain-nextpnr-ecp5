@@ -27,7 +27,7 @@ install:
       cd nextpnr
       git checkout 6e932f5a2db83bece51f744ed59c42a0f7377b6f
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:/tools/Python364/python36.zip", "$($env:APPVEYOR_BUILD_FOLDER)\nextpnr\Lib")
-      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ice40 -DICEBOX_ROOT=$env:APPVEYOR_BUILD_FOLDER\icebox -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DPYTHON_EXECUTABLE=C:/tools/Python364/python.exe -DPYTHON_LIBRARY=C:/tools/vcpkg/packages/python3_x64-windows/lib/python36.lib -DPYTHON_INCLUDE_DIR=C:/tools/vcpkg/packages/python3_x64-windows/include/python3.6 -DSTATIC_BUILD=ON -DBUILD_GUI=OFF .
+      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ice40 -DICEBOX_ROOT=$env:APPVEYOR_BUILD_FOLDER.replace("\", "/")/icebox -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DPYTHON_EXECUTABLE=C:/tools/Python364/python.exe -DPYTHON_LIBRARY=C:/tools/vcpkg/packages/python3_x64-windows/lib/python36.lib -DPYTHON_INCLUDE_DIR=C:/tools/vcpkg/packages/python3_x64-windows/include/python3.6 -DSTATIC_BUILD=ON -DBUILD_GUI=OFF .
       cmake --build . --config Release
 # # TODO This is the "test phase", tweak it as you see fit
 # test_script:
