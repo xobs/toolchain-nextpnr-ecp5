@@ -14,6 +14,7 @@ install:
       } ElseIf ($Env:TARGET -eq 'i686-pc-windows-gnu') {
         $Env:PATH += ';C:\msys64\mingw32\bin'
       }
+      Add-Type -AssemblyName System.IO.Compression.FileSystem
       cd C:\tools\vcpkg
       git checkout d82f37b4bfc1422d4601fbb63cbd553c925f7014
       vcpkg integrate install
