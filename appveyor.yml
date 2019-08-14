@@ -1,22 +1,8 @@
-# Based on the "trust" template v0.1.2
-# https://github.com/japaric/trust/tree/v0.1.2
-
 environment:
-  global:
-  # TODO This is the Rust channel that build jobs will use by default but can be
-  # overridden on a case by case basis down below
-    RUST_VERSION: stable
-
-    # TODO Update this to match the name of your project.
-    CRATE_NAME: nextpnr-ice40
-
-  # TODO These are all the build jobs. Adjust as necessary. Comment out what you
-  # don't need
+  APPVEYOR_SAVE_CACHE_ON_ERROR: true
   matrix:
     # MSVC
     - TARGET: x86_64-pc-windows-msvc
-#    - TARGET: x86_64-pc-windows-msvc
-#      RUST_VERSION: nightly
 
 install:
   - ps: |
