@@ -27,6 +27,7 @@ install:
       cd C:\tools
       Invoke-WebRequest -uri $env:PYTHON_URI -OutFile C:\tools\python.zip
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python.zip", "C:\tools\Python")
+      [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python\Python37.zip", "C:\tools\Python")
 
       cd $env:APPVEYOR_BUILD_FOLDER
       git clone $env:NEXTPNR_URI
@@ -46,6 +47,8 @@ install:
       Set-Location $stage
       $zip = "$SRC_DIR\nextpnr-$($ENV:APPVEYOR_REPO_TAG_NAME)-windows_amd64.zip"
       Copy-Item "$SRC_DIR\Release\*.*" '.\'
+      $libdir = "$($stage)\Lib"
+      [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python\Python37.zip", $libdir)
       [System.IO.Compression.ZipFile]::CreateFromDirectory($stage, $zip)
       Push-AppveyorArtifact "$zip"
 
