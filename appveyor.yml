@@ -44,7 +44,7 @@ install:
       $ZIP = "$SRC_DIR\nextpnr-$($Env:APPVEYOR_REPO_TAG_NAME)-windows_amd64.zip"
 
       # TODO Update this to package the right artifacts
-      Copy-Item "$SRC_DIR\release\*.exe" '.\'
+      Copy-Item "$SRC_DIR\nextpnr-ice40.exe" '.\'
 
       [System.IO.Compression.ZipFile]::CreateFromDirectory($STAGE, $ZIP)
 
@@ -55,14 +55,6 @@ install:
       Remove-Item $STAGE
       Set-Location $SRC_DIR
 
-# # TODO This is the "test phase", tweak it as you see fit
-# test_script:
-#   # we don't run the "test phase" when doing deploys
-#   - if [%APPVEYOR_REPO_TAG%]==[false] (
-#       cargo build --target %TARGET% &&
-#       cargo build --target %TARGET% --release
-#     )
-
 # before_deploy:
   # TODO Update this to build the artifacts that matter to you
   # - ps: ci\before_deploy.ps1
@@ -70,20 +62,14 @@ install:
 deploy:
   artifact: /.*\.zip/
   auth_token:
-    secure: '6eJOjWv2eburw+V4lUSkAN5OCs1fYr1C96WgULOZzgYDT7DLhC0oaaGuN9jeIw6z'
+    secure: '3H1TyUJgA/HcXJaMa4cL9ZBICbnBt+lklIvehG6LRG71VbUn9uXNUNtTeCFJp5mh'
   description: 'Automated release'
-  on:
-    # TODO Here you can pick which targets will generate binary releases
-    # In this example, there are some targets that are tested using the stable
-    # and nightly channels. This condition makes sure there is only one release
-    # for such targets and that's generated using the stable channel
-    RUST_VERSION: stable
-    appveyor_repo_tag: true
+  # on:
+  #   appveyor_repo_tag: true
   provider: GitHub
 
 cache:
   - c:\tools\vcpkg\installed\
-  - C:\tools\Python364
 
 branches:
   only:
