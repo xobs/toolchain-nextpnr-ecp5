@@ -3,7 +3,6 @@ image:
 
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
-  APPVEYOR_CACHE_SKIP_RESTORE: true
   NEXTPNR_COMMIT: 79dbeda0f3b73d149fcd1f39cb7110cf6f8a6237
   NEXTPNR_URI: https://github.com/xobs/nextpnr.git
   VCPKG_COMMIT: edaf3bf91e6b3c33943d5006f6b34fe98b18e1d9
@@ -32,7 +31,7 @@ install:
       cd nextpnr
       git checkout $env:NEXTPNR_COMMIT
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:/tools/Python/python37.zip", "$($env:APPVEYOR_BUILD_FOLDER)\nextpnr\Lib")
-      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ice40 "-DICEBOX_ROOT=$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/icebox" -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static -G "Visual Studio 15 2017 Win64" -DSTATIC_BUILD=ON -DBUILD_GUI=OFF .
+      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ice40 "-DICEBOX_ROOT=$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/icebox" -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static -G "Visual Studio 15 2017 Win64" -DPYTHON_EXECUTABLE=C:/tools/Python/python.exe -DSTATIC_BUILD=ON -DBUILD_GUI=OFF .
       cmake --build . --config Release
 
       $SRC_DIR = "$($env:APPVEYOR_BUILD_FOLDER)\nextpnr\Release"
