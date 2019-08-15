@@ -20,16 +20,29 @@ install:
       }
       Add-Type -AssemblyName System.IO.Compression.FileSystem
       cd C:\tools\vcpkg
+      git rev-parse HEAD
       git checkout $env:VCPKG_COMMIT
       vcpkg integrate install
       vcpkg install boost-filesystem:x64-windows-static boost-program-options:x64-windows-static boost-thread:x64-windows-static boost-python:x64-windows-static eigen3:x64-windows-static
       cd C:\tools
       Invoke-WebRequest -uri $env:PYTHON_URI -OutFile C:\tools\python.zip
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python.zip", "C:\tools\Python")
+
       cd $env:APPVEYOR_BUILD_FOLDER
       git clone $env:NEXTPNR_URI
       cd nextpnr
       git checkout $env:NEXTPNR_COMMIT
+
+      $SRC_DIR = "$($env:APPVEYOR_BUILD_FOLDER)\nextpnr"
+      $STAGE = [System.Guid]::NewGuid().ToString()
+      Set-Location $ENV:Temp
+      New-Item -Type Directory -Name $STAGE
+      Set-Location $STAGE
+      $ZIP = "$SRC_DIR\nextpnr-$($Env:APPVEYOR_REPO_TAG_NAME)-windows_amd64.zip"
+      Copy-Item "$SRC_DIR\CMakeLists.txt" '.\'
+      [System.IO.Compression.ZipFile]::CreateFromDirectory($STAGE, $ZIP)
+      Push-AppveyorArtifact "$ZIP"
+
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:/tools/Python/python37.zip", "$($env:APPVEYOR_BUILD_FOLDER)\nextpnr\Lib")
       cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ice40 "-DICEBOX_ROOT=$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/icebox" -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static -G "Visual Studio 15 2017 Win64" -DPYTHON_EXECUTABLE=C:/tools/Python/python.exe -DSTATIC_BUILD=ON -DBUILD_GUI=OFF .
       cmake --build . --config Release
