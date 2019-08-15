@@ -51,3 +51,4 @@ deploy:
   on:
     repo: xobs/toolchain-nextpnr-ice40
     all_branches: true
+    tags: true
