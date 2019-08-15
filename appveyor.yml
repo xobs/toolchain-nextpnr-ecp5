@@ -5,7 +5,7 @@ environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
   NEXTPNR_COMMIT: 79dbeda0f3b73d149fcd1f39cb7110cf6f8a6237
   NEXTPNR_URI: https://github.com/xobs/nextpnr.git
-  VCPKG_COMMIT: edaf3bf91e6b3c33943d5006f6b34fe98b18e1d9
+  VCPKG_COMMIT: 8900146533f8e38266ef89766a2bbacffcb67836
   PYTHON_URI: https://www.python.org/ftp/python/3.7.3/python-3.7.3-embed-amd64.zip
   matrix:
     # MSVC
@@ -40,7 +40,7 @@ install:
       Set-Location $STAGE
       $ZIP = "$SRC_DIR\nextpnr-$($Env:APPVEYOR_REPO_TAG_NAME)-windows_amd64.zip"
       Copy-Item "$SRC_DIR\CMakeLists.txt" '.\'
-      [System.IO.Compression.ZipFile]::CreateFromDirectory($STAGE, $ZIP)
+      [System.IO.Compression.ZipFile]::CreateFromDirectory("$($ENV:Temp)\$($STAGE))", $ZIP)
       Push-AppveyorArtifact "$ZIP"
 
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:/tools/Python/python37.zip", "$($env:APPVEYOR_BUILD_FOLDER)\nextpnr\Lib")
