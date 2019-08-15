@@ -46,7 +46,8 @@ install:
       New-Item -Type Directory -Name $stage_temp
       Set-Location $stage
       $zip = "$SRC_DIR\nextpnr-$($ENV:APPVEYOR_REPO_TAG_NAME)-windows_amd64.zip"
-      Copy-Item "$SRC_DIR\Release\*.*" '.\'
+      Copy-Item "$SRC_DIR\Release\*.dll" '.\'
+      Copy-Item "$SRC_DIR\Release\nextpnr-ice40.exe" '.\'
       $libdir = "$($stage)\Lib"
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python\Python37.zip", $libdir)
       [System.IO.Compression.ZipFile]::CreateFromDirectory($stage, $zip)
@@ -57,17 +58,13 @@ install:
       Remove-Item $STAGE
       Set-Location $SRC_DIR
 
-# before_deploy:
-  # TODO Update this to build the artifacts that matter to you
-  # - ps: ci\before_deploy.ps1
-
 deploy:
   artifact: /.*\.zip/
   auth_token:
     secure: '3H1TyUJgA/HcXJaMa4cL9ZBICbnBt+lklIvehG6LRG71VbUn9uXNUNtTeCFJp5mh'
   description: 'Automated release'
-  # on:
-  #   appveyor_repo_tag: true
+  on:
+    appveyor_repo_tag: true
   provider: GitHub
 
 cache:
