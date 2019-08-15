@@ -23,7 +23,7 @@ install:
       git rev-parse HEAD
       git checkout $env:VCPKG_COMMIT
       vcpkg integrate install
-      vcpkg install boost-filesystem:x64-windows-static boost-program-options:x64-windows-static boost-thread:x64-windows-static boost-python:x64-windows-static eigen3:x64-windows-static
+      vcpkg install boost-filesystem:x64-windows boost-program-options:x64-windows boost-thread:x64-windows boost-python:x64-windows eigen3:x64-windows
       cd C:\tools
       Invoke-WebRequest -uri $env:PYTHON_URI -OutFile C:\tools\python.zip
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python.zip", "C:\tools\Python")
@@ -34,7 +34,7 @@ install:
       git checkout $env:NEXTPNR_COMMIT
 
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:/tools/Python/python37.zip", "$($env:APPVEYOR_BUILD_FOLDER)\nextpnr\Lib")
-      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ice40 "-DICEBOX_ROOT=$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/icebox" -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static -G "Visual Studio 15 2017 Win64" -DPYTHON_EXECUTABLE=C:/tools/Python/python.exe -DSTATIC_BUILD=ON -DBUILD_GUI=OFF .
+      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ice40 "-DICEBOX_ROOT=$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/icebox" -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DPYTHON_EXECUTABLE=C:/tools/Python/python.exe -DBUILD_GUI=OFF .
       cmake --build . --config Release
 
 
@@ -45,7 +45,7 @@ install:
       New-Item -Type Directory -Name $stage_temp
       Set-Location $stage
       $zip = "$SRC_DIR\nextpnr-$($ENV:APPVEYOR_REPO_TAG_NAME)-windows_amd64.zip"
-      Copy-Item "$SRC_DIR\Release\nextpnr-ice40.exe" '.\'
+      Copy-Item "$SRC_DIR\Release\*.*" '.\'
       [System.IO.Compression.ZipFile]::CreateFromDirectory($stage, $zip)
       Push-AppveyorArtifact "$zip"
 
