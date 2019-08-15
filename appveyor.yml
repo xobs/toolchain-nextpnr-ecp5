@@ -33,36 +33,21 @@ install:
       cd nextpnr
       git checkout $env:NEXTPNR_COMMIT
 
-      $SRC_DIR = "$($env:APPVEYOR_BUILD_FOLDER)\nextpnr"
-      $stage_temp = [System.Guid]::NewGuid().ToString()
-      $stage = "$($env:Temp)\$($stage_temp)"
-      Set-Location $ENV:Temp
-      New-Item -Type Directory -Name $stage_temp
-      Set-Location $stage
-      $zip = "$SRC_DIR\nextpnr-$($Env:APPVEYOR_REPO_TAG_NAME)-windows_amd64.zip"
-      Copy-Item "$SRC_DIR\CMakeLists.txt" '.\'
-      [System.IO.Compression.ZipFile]::CreateFromDirectory($stage, $zip)
-      Push-AppveyorArtifact "$zip"
-
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:/tools/Python/python37.zip", "$($env:APPVEYOR_BUILD_FOLDER)\nextpnr\Lib")
       cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ice40 "-DICEBOX_ROOT=$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/icebox" -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static -G "Visual Studio 15 2017 Win64" -DPYTHON_EXECUTABLE=C:/tools/Python/python.exe -DSTATIC_BUILD=ON -DBUILD_GUI=OFF .
       cmake --build . --config Release
 
-      $SRC_DIR = "$($env:APPVEYOR_BUILD_FOLDER)\nextpnr\Release"
-      $STAGE = [System.Guid]::NewGuid().ToString()
 
+      $SRC_DIR = "$($ENV:APPVEYOR_BUILD_FOLDER)\nextpnr"
+      $stage_temp = [System.Guid]::NewGuid().ToString()
+      $stage = "$($ENV:Temp)\$($stage_temp)"
       Set-Location $ENV:Temp
-      New-Item -Type Directory -Name $STAGE
-      Set-Location $STAGE
-
-      $ZIP = "$SRC_DIR\nextpnr-$($Env:APPVEYOR_REPO_TAG_NAME)-windows_amd64.zip"
-
-      # TODO Update this to package the right artifacts
-      Copy-Item "$SRC_DIR\nextpnr-ice40.exe" '.\'
-
-      [System.IO.Compression.ZipFile]::CreateFromDirectory($STAGE, $ZIP)
-
-      Push-AppveyorArtifact "$ZIP"
+      New-Item -Type Directory -Name $stage_temp
+      Set-Location $stage
+      $zip = "$SRC_DIR\nextpnr-$($ENV:APPVEYOR_REPO_TAG_NAME)-windows_amd64.zip"
+      Copy-Item "$SRC_DIR\Release\nextpnr-ice40.exe" '.\'
+      [System.IO.Compression.ZipFile]::CreateFromDirectory($stage, $zip)
+      Push-AppveyorArtifact "$zip"
 
       Remove-Item *.* -Force
       Set-Location ..
