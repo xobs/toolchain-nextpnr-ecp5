@@ -3,6 +3,11 @@ image:
 
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
+  APPVEYOR_CACHE_SKIP_RESTORE: true
+  NEXTPNR_COMMIT: 79dbeda0f3b73d149fcd1f39cb7110cf6f8a6237
+  NEXTPNR_URI: https://github.com/xobs/nextpnr.git
+  VCPKG_COMMIT: d82f37b4bfc1422d4601fbb63cbd553c925f7014
+  PYTHON_URI: https://www.python.org/ftp/python/3.7.3/python-3.7.3-embed-amd64.zip
   matrix:
     # MSVC
     - TARGET: x86_64-pc-windows-msvc
@@ -16,18 +21,18 @@ install:
       }
       Add-Type -AssemblyName System.IO.Compression.FileSystem
       cd C:\tools\vcpkg
-      git checkout d82f37b4bfc1422d4601fbb63cbd553c925f7014
+      git checkout $env:VCPKG_COMMIT
       vcpkg integrate install
       vcpkg install boost-filesystem:x64-windows-static boost-program-options:x64-windows-static boost-thread:x64-windows-static boost-python:x64-windows-static eigen3:x64-windows-static
       cd C:\tools
-      Invoke-WebRequest -uri https://www.python.org/ftp/python/3.6.4/python-3.6.4-embed-amd64.zip -OutFile C:\tools\python-3.6.4-embed-amd64.zip
-      [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python-3.6.4-embed-amd64.zip", "C:\tools\Python364")
+      Invoke-WebRequest -uri $env:PYTHON_URI -OutFile C:\tools\python.zip
+      [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python.zip", "C:\tools\Python")
       cd $env:APPVEYOR_BUILD_FOLDER
-      git clone https://github.com/xobs/nextpnr.git
+      git clone $env:NEXTPNR_URI
       cd nextpnr
-      git checkout 6e932f5a2db83bece51f744ed59c42a0f7377b6f
-      [System.IO.Compression.ZipFile]::ExtractToDirectory("C:/tools/Python364/python36.zip", "$($env:APPVEYOR_BUILD_FOLDER)\nextpnr\Lib")
-      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ice40 "-DICEBOX_ROOT=$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/icebox" -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static -G "Visual Studio 15 2017 Win64" -DPYTHON_EXECUTABLE=C:/tools/Python364/python.exe  -DSTATIC_BUILD=ON -DBUILD_GUI=OFF .
+      git checkout $env:NEXTPNR_COMMIT
+      [System.IO.Compression.ZipFile]::ExtractToDirectory("C:/tools/Python/python37.zip", "$($env:APPVEYOR_BUILD_FOLDER)\nextpnr\Lib")
+      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ice40 "-DICEBOX_ROOT=$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/icebox" -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static -G "Visual Studio 15 2017 Win64" -DSTATIC_BUILD=ON -DBUILD_GUI=OFF .
       cmake --build . --config Release
 
       $SRC_DIR = $($env:APPVEYOR_BUILD_FOLDER)\nextpnr\Release
