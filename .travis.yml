@@ -45,7 +45,9 @@ deploy:
   provider: releases
   api_key:
     secure: swu6RuUbgHaOjRGHd6EYXfjq+aaLDAgJtsqk2F7Fyz3rXv+me1B/3YTb3wqc6elvobqnA5XuY+CUVv4CxcLLskvU6my1DWI2nURN85gsAWs9YQyr0cvNd7MnPHG+eTpzla1Zro5sHBTw+EnraG5cqEO2+U6d2cvkwXenhsOrKDBAp7V93im6csk1DYwkkmon4ppHwdScF/jNfGSaOMcPwh1oNjL+pfZTzrgjpEYdmz7hnLMcYR++oDSs3escM79+j+vqQpOjzJyJgXP7SIprtHB6S9N8nu08fEmSD4Ide2io6dx9IOechnuLaGx3IYYdSzlLzWhIaX0oS0vb2BzYJwDpj9r6AZ6diMaeE2ketx92CxTNsSmE69Sd82AHbHDEHBGtvQB4PrMftE7sF0RqlP8LULaV35nZA2/V/K2A0btLZq14k9r70uGt/7EDtxs+IzxAgcrZzR8/fX5GwAQDmvMkoCS9dCBw5Ew2/Q50lh7sR1TGIreqxgRu4/jQ7GVm5m0dYr2Wv7ErdxBptRO9T4WNKK/QQfipmyBGi92SMiXvU2lLFXbBZM7JNKAuVlkoN5LF2D2KSC/SG4hh6g3kluUgNIHtI/UBXGM6pFrJuWQMBWVYD0ExoH3smMPYBHmuEq2MryxzM4Ak5+3Ib/s85rIkUODyFdE0c5CVOmsEaGg=
-  file: _packages/**/*.tar.gz
+  file:
+    - _packages/**/*.tar.gz
+    - _packages/**/*.zip
   file_glob: true
   skip_cleanup: true
   on:
