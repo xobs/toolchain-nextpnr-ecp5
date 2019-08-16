@@ -53,7 +53,7 @@ install:
       [System.IO.Compression.ZipFile]::CreateFromDirectory($stage, $zip)
       Push-AppveyorArtifact "$zip"
       Set-Location $src_dir
-      Remove-Item -recurse -force $stage_temp
+      Remove-Item -recurse -force $stage
 
 deploy:
   artifact: /.*\.zip/
