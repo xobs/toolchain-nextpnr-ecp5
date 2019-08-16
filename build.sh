@@ -9,14 +9,14 @@ export LC_ALL=C
 # Generate toolchain-icestorm-arch-ver.tar.gz from source code
 # sources: http://www.clifford.at/icestorm/
 
-VERSION=1.11.1
+VERSION="${TRAVIS_TAG}"
 
 # -- Target architectures
 ARCH=$1
 TARGET_ARCHS="linux_x86_64 linux_i686 linux_armv7l linux_aarch64 darwin"
 
 # -- Toolchain name
-NAME=toolchain-nextpnr-ice40
+NAME=nextpnr-ice40
 
 # -- Debug flags
 INSTALL_DEPS=1
