@@ -52,3 +52,11 @@ deploy:
     repo: xobs/toolchain-nextpnr-ice40
     all_branches: true
     tags: true
+branches:
+  only:
+    # Release tags
+    - /^v\d+\.\d+\.*$/
+    - master
+notifications:
+  email:
+    on_success: change
