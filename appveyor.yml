@@ -39,24 +39,21 @@ install:
       cmake --build . --config Release
 
 
-      $SRC_DIR = "$($ENV:APPVEYOR_BUILD_FOLDER)\nextpnr"
+      $src_dir = "$($ENV:APPVEYOR_BUILD_FOLDER)\nextpnr"
       $stage_temp = [System.Guid]::NewGuid().ToString()
       $stage = "$($ENV:Temp)\$($stage_temp)"
       Set-Location $ENV:Temp
       New-Item -Type Directory -Name $stage_temp
       Set-Location $stage
-      $zip = "$SRC_DIR\nextpnr-$($ENV:APPVEYOR_REPO_TAG_NAME)-windows_amd64.zip"
-      Copy-Item "$SRC_DIR\Release\*.dll" '.\'
-      Copy-Item "$SRC_DIR\Release\nextpnr-ice40.exe" '.\'
+      $zip = "$src_dir\nextpnr-$($ENV:APPVEYOR_REPO_TAG_NAME)-windows_amd64.zip"
+      Copy-Item "$src_dir\Release\*.dll" '.\'
+      Copy-Item "$src_dir\Release\nextpnr-ice40.exe" '.\'
       $libdir = "$($stage)\Lib"
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python\Python37.zip", $libdir)
       [System.IO.Compression.ZipFile]::CreateFromDirectory($stage, $zip)
       Push-AppveyorArtifact "$zip"
-
-      Remove-Item *.* -Force
-      Set-Location ..
-      Remove-Item $STAGE
-      Set-Location $SRC_DIR
+      Set-Location $src_dir
+      Remove-Item -recurse -force $stage_temp
 
 deploy:
   artifact: /.*\.zip/
