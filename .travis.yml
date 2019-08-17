@@ -12,16 +12,12 @@ matrix:
         - flex
         - gawk
         - git
-        - python3
         - pkg-config
-        - libusb
         - gnu-sed
         - wget
-        - boost
-        - boost-python3
         - eigen
-  - os: linux
-    env: TARGET=linux_x86_64
+  # - os: linux
+  #   env: TARGET=linux_x86_64
 before_script:
 - if [[ ${TARGET:0:7} == "windows" ]]; then sudo dpkg --add-architecture i386; fi
 - if [[ "$ARCH" == "linux_i686" ]]; then sudo dpkg --add-architecture i386; fi

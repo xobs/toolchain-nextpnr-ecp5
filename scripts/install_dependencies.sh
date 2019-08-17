@@ -89,17 +89,18 @@ if [ $ARCH == "windows_amd64" ]; then
 fi
 
 if [ $ARCH == "darwin" ]; then
-  # which -s brew
-  # if [[ $? != 0 ]] ; then
-  #   # Install Homebrew
-  #   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  # else
-  #   brew update
-  # fi
-  DEPS="bison flex gawk git \
-        pkg-config python3 libusb gnu-sed wget \
-        boost boost-python3 eigen"
-  # brew install --force $DEPS
-  # brew upgrade python
-  brew unlink $DEPS && brew link --force $DEPS
+  # brew_deps="bison flex gawk git pkg-config gnu-sed wget eigen"
+  # brew unlink $brew_deps && brew link --force $brew_deps
+
+  deps="boost-1.67.0-py37_4.tar.bz2 \
+        py-boost-1.67.0-py37h6440ff4_4.tar.bz2 \
+        libboost-1.67.0-hebc422b_4.tar.bz2 \
+        python-3.7.4-h359304d_1.tar.bz2"
+  for dep in $deps
+  do
+    mkdir -p /tmp/nextpnr
+    pushd /tmp/nextpnr
+    tar xvjf $WORK_DIR/build-data/darwin/$dep
+    popd
+  done
 fi
