@@ -101,7 +101,14 @@ if [ $ARCH == "darwin" ]; then
   do
     mkdir -p /tmp/nextpnr
     pushd /tmp/nextpnr
-    tar xvjf $WORK_DIR/build-data/darwin/$dep
+    echo "Extracting $dep..."
+    tar xjf $WORK_DIR/build-data/darwin/$dep
     popd
   done
+
+  # Also extracy Python to our install path, since we'll need it on Darwin
+  mkdir -p $PACKAGE_DIR/$NAME
+  pushd $PACKAGE_DIR/$NAME
+  tar xjf $WORK_DIR/build-data/darwin/python-3.7.4-h359304d_1.tar.bz2
+  popd
 fi
