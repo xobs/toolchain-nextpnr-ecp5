@@ -36,6 +36,7 @@ if [ $ARCH == "darwin" ]; then
     -DBoost_USE_STATIC_LIBS=ON \
     -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python \
     -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.a \
+    -DEigen3_DIR=/tmp/nextpnr/share/eigen3/cmake \
     -DBUILD_GUI=OFF \
     -DBUILD_HEAP=ON \
     -DCMAKE_EXE_LINKER_FLAGS='-fno-lto -ldl -lutil' \

@@ -93,6 +93,7 @@ if [ $ARCH == "darwin" ]; then
   # brew unlink $brew_deps && brew link --force $brew_deps
 
   deps="boost-1.67.0-py37_4.tar.bz2 \
+        eigen3-3.3.7-0.tar.bz2 \
         py-boost-1.67.0-py37h6440ff4_4.tar.bz2 \
         libboost-1.67.0-hebc422b_4.tar.bz2 \
         python-3.7.4-h359304d_1.tar.bz2"
