@@ -43,13 +43,27 @@ if [ $ARCH == "darwin" ]; then
     -DICEBOX_ROOT="$WORK_DIR/icebox" \
     -DSTATIC_BUILD=ON \
     .
-  make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
+    make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
 elif [ ${ARCH:0:7} == "windows" ]; then
-  cmake -DARCH=ice40 -DICEBOX_ROOT="./icebox" -DBUILD_HEAP=ON -DCMAKE_SYSTEM_NAME=Windows -DBUILD_GUI=OFF -DSTATIC_BUILD=ON -DBoost_USE_STATIC_LIBS=ON .
-  make -j$J CXX="$CXX" LIBS="-static -static-libstdc++ -static-libgcc -lm"
+    cmake \
+    -DARCH=ice40 \
+    -DICEBOX_ROOT="$WORK_DIR/icebox" \
+    -DBUILD_HEAP=ON \
+    -DCMAKE_SYSTEM_NAME=Windows \
+    -DBUILD_GUI=OFF \
+    -DSTATIC_BUILD=ON \
+    -DBoost_USE_STATIC_LIBS=ON \
+    .
+    make -j$J CXX="$CXX" LIBS="-static -static-libstdc++ -static-libgcc -lm"
 else
-  cmake -DARCH=ice40 -DICEBOX_ROOT="./icebox" -DBUILD_HEAP=ON -DBUILD_GUI=OFF -DBoost_USE_STATIC_LIBS=ON .
-  make -j$J CXX="$CXX" LIBS="-static -static-libstdc++ -static-libgcc -lm -static-libpython3.5m"
+    cmake \
+    -DARCH=ice40 \
+    -DICEBOX_ROOT="$WORK_DIR/icebox" \
+    -DBUILD_HEAP=ON \
+    -DBUILD_GUI=OFF \
+    -DBoost_USE_STATIC_LIBS=ON \
+    .
+    make -j$J CXX="$CXX" LIBS="-static -static-libstdc++ -static-libgcc -lm -static-libpython3.5m"
 fi || exit 1
 
 # -- Copy the executable to the bin dir
