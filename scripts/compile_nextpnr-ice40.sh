@@ -44,6 +44,9 @@ if [ $ARCH == "darwin" ]; then
     -DSTATIC_BUILD=ON \
     .
   make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
+  otool -D nextpnr-ice40 || true
+  otool -L nextpnr-ice40 || true
+  ./nextpnr-ice40 --up5k --package sg48 --pcf $WORK_DIR/build-data/test/top.pcf --json $WORK_DIR/build-data/test/top.json --asc /tmp/nextpnr/top.txt --pre-pack $WORK_DIR/build-data/test/top_pre_pack.py --seed 0 --placer heap
 elif [ ${ARCH:0:7} == "windows" ]; then
   cmake -DARCH=ice40 -DICEBOX_ROOT="./icebox" -DBUILD_HEAP=ON -DCMAKE_SYSTEM_NAME=Windows -DBUILD_GUI=OFF -DSTATIC_BUILD=ON -DBoost_USE_STATIC_LIBS=ON .
   make -j$J CXX="$CXX" LIBS="-static -static-libstdc++ -static-libgcc -lm"
