@@ -16,8 +16,8 @@ matrix:
         - gnu-sed
         - wget
         - eigen
-  # - os: linux
-  #   env: TARGET=linux_x86_64
+  - os: linux
+    env: TARGET=linux_x86_64
 before_script:
 - if [[ ${TARGET:0:7} == "windows" ]]; then sudo dpkg --add-architecture i386; fi
 - if [[ "$ARCH" == "linux_i686" ]]; then sudo dpkg --add-architecture i386; fi
