@@ -61,6 +61,7 @@ else
     -DICEBOX_ROOT="$WORK_DIR/icebox" \
     -DBUILD_HEAP=ON \
     -DBUILD_GUI=OFF \
+    -DSTATIC_BUILD=ON \
     -DBoost_USE_STATIC_LIBS=ON \
     .
     make -j$J CXX="$CXX" LIBS="-static -static-libstdc++ -static-libgcc -lm -static-libpython3.5m"
