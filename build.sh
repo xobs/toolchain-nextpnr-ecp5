@@ -2,7 +2,7 @@
 ##################################
 #   Icestorm toolchain builder   #
 ##################################
-
+set -e
 # Set english language for propper pattern matching
 export LC_ALL=C
 
