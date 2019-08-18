@@ -56,15 +56,27 @@ elif [ ${ARCH:0:7} == "windows" ]; then
     .
     make -j$J CXX="$CXX" LIBS="-static -static-libstdc++ -static-libgcc -lm"
 else
+    patch -p1 < ${WORK_DIR}/build-data/linux/0001-cmake-fix-static-build.patch
     cmake \
-    -DARCH=ice40 \
-    -DICEBOX_ROOT="$WORK_DIR/icebox" \
-    -DBUILD_HEAP=ON \
-    -DBUILD_GUI=OFF \
-    -DSTATIC_BUILD=ON \
-    -DBoost_USE_STATIC_LIBS=ON \
-    .
-    make -j$J CXX="$CXX" LIBS="-static -static-libstdc++ -static-libgcc -lm -static-libpython3.5m"
+        -DARCH=ice40 \
+        -DICEBOX_ROOT="$WORK_DIR/icebox" \
+        -DBUILD_HEAP=ON \
+        -DBUILD_GUI=OFF \
+        -DSTATIC_BUILD=ON \
+        -DBoost_USE_STATIC_LIBS=ON \
+        .
+    make -j$J CXX="$CXX"
+
+    # Install a copy of Python, since Python libraries are not compatible
+    # across minor versions.
+    mkdir libpython3
+    cd libpython3
+    for pkg in $(ls -1 ${WORK_DIR}/build-data/linux/*.deb)
+    do
+        ar p $pkg data.tar.xz | tar xvJ
+    done
+    mkdir -p $PACKAGE_DIR/$NAME
+    mv usr/* $PACKAGE_DIR/$NAME
 fi || exit 1
 
 # -- Copy the executable to the bin dir
