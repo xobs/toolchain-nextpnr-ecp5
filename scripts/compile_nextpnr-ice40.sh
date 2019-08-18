@@ -20,9 +20,6 @@ rsync -a $NEXTPNR $BUILD_DIR --exclude .git
 
 cd $BUILD_DIR/$NEXTPNR
 
-mkdir icebox
-cp -v ../icestorm/icefuzz/*.txt icebox/
-cp -v ../icestorm/icebox/*.txt icebox/
 if [ -e CMakeCache.txt ]
 then
   echo "CMakeCache.txt exists!"
