@@ -73,6 +73,7 @@ else
     cd libpython3
     for pkg in $(ls -1 ${WORK_DIR}/build-data/linux/*.deb)
     do
+        echo "Extracting $pkg..."
         ar p $pkg data.tar.xz | tar xvJ
     done
     mkdir -p $PACKAGE_DIR/$NAME
