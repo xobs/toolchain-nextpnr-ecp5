@@ -77,6 +77,7 @@ else
     done
     mkdir -p $PACKAGE_DIR/$NAME
     mv usr/* $PACKAGE_DIR/$NAME
+    cd ..
 fi || exit 1
 
 # -- Copy the executable to the bin dir
