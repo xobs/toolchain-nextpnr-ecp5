@@ -46,7 +46,11 @@ install:
       New-Item -Type Directory -Name $stage_temp
       Set-Location $stage
 <<<<<<< HEAD
+<<<<<<< HEAD
       $zip = "$src_dir\nextpnr-$($ENV:APPVEYOR_REPO_TAG_NAME)-windows_amd64.zip"
+=======
+      $zip = "$src_dir\nextpnr-windows_amd64-$($ENV:APPVEYOR_REPO_TAG_NAME).zip"
+>>>>>>> edf63de... appveyor: fix build ordering name
       Copy-Item "$src_dir\Release\*.dll" '.\'
       Copy-Item "$src_dir\Release\nextpnr-ice40.exe" '.\'
 =======
