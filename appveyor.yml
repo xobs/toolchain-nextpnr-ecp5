@@ -45,7 +45,7 @@ install:
       git -C nextpnr log -1
 
       cd $env:APPVEYOR_BUILD_FOLDER\prjtrellis\libtrellis
-      cmake  -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" . -DBUILD_SHARED=OFF -DSTATIC_BUILD=OFF
+      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DPYTHON_EXECUTABLE=C:/tools/Python/python.exe -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" . -DBUILD_SHARED=OFF -DSTATIC_BUILD=OFF
       cmake --build . --config Release
 
       cd $env:APPVEYOR_BUILD_FOLDER\nextpnr
