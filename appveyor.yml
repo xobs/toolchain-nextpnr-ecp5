@@ -51,7 +51,7 @@ install:
       $prjtrellis = "$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/prjtrellis"
       $libtrellis = "$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/prjtrellis/libtrellis/release"
       echo "prjtrellis - $prjtrellis"
-      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ecp5 "-DTRELLIS_ROOT=$prjtrellis" -DPYTRELLIS_LIBDIR=$libtrellis -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DPYTHON_EXECUTABLE=C:/tools/Python/python.exe -DBUILD_GUI=OFF .
+      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ecp5 "-DTRELLIS_ROOT=$prjtrellis" "-DPYTRELLIS_LIBDIR=$libtrellis" -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DPYTHON_EXECUTABLE=C:/tools/Python/python.exe -DBUILD_GUI=OFF .
       cat ecp5_chipdb.vcxproj
       cmake --build . --config Release
 
