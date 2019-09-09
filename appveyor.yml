@@ -3,7 +3,7 @@ image:
 
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
-  NEXTPNR_COMMIT: 79dbeda0f3b73d149fcd1f39cb7110cf6f8a6237
+  NEXTPNR_COMMIT: f98960b9361862d956df59f8129b01005ea41b5c
   NEXTPNR_URI: https://github.com/xobs/nextpnr.git
   PRJTRELLIS_COMMIT: 40129f3fe8cd9c09b8a19df480f18cde1042e6a0
   PRJTRELLIS_URI: https://github.com/SymbiFlow/prjtrellis.git
@@ -25,6 +25,7 @@ install:
       git rev-parse HEAD
       git checkout $env:VCPKG_COMMIT
       vcpkg integrate install
+      vcpkg install boost-filesystem:x64-windows boost-program-options:x64-windows boost-thread:x64-windows boost-python:x64-windows eigen3:x64-windows
       vcpkg install boost-filesystem:x64-windows boost-program-options:x64-windows boost-thread:x64-windows boost-python:x64-windows eigen3:x64-windows
       cd C:\tools
       Invoke-WebRequest -uri $env:PYTHON_URI -OutFile C:\tools\python.zip
@@ -51,7 +52,8 @@ install:
       cd $env:APPVEYOR_BUILD_FOLDER\nextpnr
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:/tools/Python/python37.zip", "$($env:APPVEYOR_BUILD_FOLDER)\nextpnr\Lib")
       $prjtrellis = "$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/prjtrellis"
-      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ecp5 "-DTRELLIS_ROOT=$prjtrellis" -DPYTRELLIS_LIBDIR=$prjtrellis/libtrellis/release -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DPYTHON_EXECUTABLE=C:/tools/Python/python.exe -DBUILD_GUI=OFF .
+      echo prjtrellis - $prjtrellis
+      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ecp5 "-DTRELLIS_ROOT=$prjtrellis" "-DPYTRELLIS_LIBDIR=$prjtrellis/libtrellis/release" -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DPYTHON_EXECUTABLE=C:/tools/Python/python.exe -DBUILD_GUI=OFF .
       cmake --build . --config Release
 
       $nextpnr_src_dir = "$($ENV:APPVEYOR_BUILD_FOLDER)\nextpnr"
