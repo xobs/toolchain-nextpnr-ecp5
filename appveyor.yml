@@ -5,6 +5,8 @@ environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
   NEXTPNR_COMMIT: 79dbeda0f3b73d149fcd1f39cb7110cf6f8a6237
   NEXTPNR_URI: https://github.com/xobs/nextpnr.git
+  PRJTRELLIS_COMMIT: 40129f3fe8cd9c09b8a19df480f18cde1042e6a0
+  PRJTRELLIS_URI: https://github.com/SymbiFlow/prjtrellis.git
   VCPKG_COMMIT: 8900146533f8e38266ef89766a2bbacffcb67836
   PYTHON_URI: https://www.python.org/ftp/python/3.7.3/python-3.7.3-embed-amd64.zip
   matrix:
@@ -30,24 +32,40 @@ install:
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python\Python37.zip", "C:\tools\Python")
 
       cd $env:APPVEYOR_BUILD_FOLDER
-      git clone $env:NEXTPNR_URI
-      cd nextpnr
-      git checkout $env:NEXTPNR_COMMIT
+      git clone --depth=1 $PRJTRELLIS_URI prjtrellis
+      git -C prjtrellis pull
+      echo ""
+      git -C prjtrellis reset --hard $env:PRJTRELLIS_COMMIT
+      git -C prjtrellis log -1
 
-      [System.IO.Compression.ZipFile]::ExtractToDirectory("C:/tools/Python/python37.zip", "$($env:APPVEYOR_BUILD_FOLDER)\nextpnr\Lib")
-      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ice40 "-DICEBOX_ROOT=$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/icebox" -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DPYTHON_EXECUTABLE=C:/tools/Python/python.exe -DBUILD_GUI=OFF .
+      git clone --depth=1 $NEXTPNR_URI nextpnr
+      git -C nextpnr pull
+      echo ""
+      git -C nextpnr reset --hard $env:NEXTPNR_URI
+      git -C nextpnr log -1
+
+      cd $env:APPVEYOR_BUILD_FOLDER\prjtrellis\libtrellis
+      cmake  -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" . -DBUILD_SHARED=OFF -DSTATIC_BUILD=OFF
       cmake --build . --config Release
 
+      cd $env:APPVEYOR_BUILD_FOLDER\nextpnr
+      [System.IO.Compression.ZipFile]::ExtractToDirectory("C:/tools/Python/python37.zip", "$($env:APPVEYOR_BUILD_FOLDER)\nextpnr\Lib")
+      $prjtrellis = "$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/prjtrellis"
+      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ecp5 "-DTRELLIS_ROOT=$prjtrellis" -DPYTRELLIS_LIBDIR=$prjtrellis/libtrellis/release -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DPYTHON_EXECUTABLE=C:/tools/Python/python.exe -DBUILD_GUI=OFF .
+      cmake --build . --config Release
 
-      $src_dir = "$($ENV:APPVEYOR_BUILD_FOLDER)\nextpnr"
+      $nextpnr_src_dir = "$($ENV:APPVEYOR_BUILD_FOLDER)\nextpnr"
+      $libtrellis_src_dir = "$($ENV:APPVEYOR_BUILD_FOLDER)\prjtrellis\libtrellis"
       $stage_temp = [System.Guid]::NewGuid().ToString()
       $stage = "$($ENV:Temp)\$($stage_temp)"
       Set-Location $ENV:Temp
       New-Item -Type Directory -Name $stage_temp
       Set-Location $stage
       $zip = "$src_dir\nextpnr-ice40-windows_amd64-$($ENV:APPVEYOR_REPO_TAG_NAME).zip"
-      Copy-Item "$src_dir\Release\*.dll" '.\'
-      Copy-Item "$src_dir\Release\nextpnr-ice40.exe" '.\'
+      Copy-Item "$nextpnr_src_dir\Release\*.dll" '.\'
+      Copy-Item "$nextpnr_src_dir\Release\nextpnr-ecp5.exe" '.\'
+      Copy-Item "$libtrellis_src_dir\Release\*.dll" '.\'
+      Copy-Item "$libtrellis_src_dir\Release\*.exe" '.\'
       $libdir = "$($stage)\Lib"
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python\Python37.zip", $libdir)
       [System.IO.Compression.ZipFile]::CreateFromDirectory($stage, $zip)
