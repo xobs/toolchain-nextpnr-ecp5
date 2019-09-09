@@ -32,16 +32,14 @@ install:
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python\Python37.zip", "C:\tools\Python")
 
       cd $env:APPVEYOR_BUILD_FOLDER
-      git clone --depth=1 $env:PRJTRELLIS_URI prjtrellis
-      git -C prjtrellis pull
+      git clone $env:PRJTRELLIS_URI prjtrellis
       echo ""
-      git -C prjtrellis reset --hard $env:PRJTRELLIS_COMMIT
+      git -C prjtrellis checkout $env:PRJTRELLIS_COMMIT
       git -C prjtrellis log -1
 
-      git clone --depth=1 $env:NEXTPNR_URI nextpnr
-      git -C nextpnr pull
+      git clone $env:NEXTPNR_URI nextpnr
       echo ""
-      git -C nextpnr reset --hard $env:NEXTPNR_COMMIT
+      git -C nextpnr checkout $env:NEXTPNR_COMMIT
       git -C nextpnr log -1
 
       cd $env:APPVEYOR_BUILD_FOLDER\prjtrellis\libtrellis
