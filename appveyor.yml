@@ -41,7 +41,7 @@ install:
       git clone --depth=1 $env:NEXTPNR_URI nextpnr
       git -C nextpnr pull
       echo ""
-      git -C nextpnr reset --hard $env:NEXTPNR_URI
+      git -C nextpnr reset --hard $env:NEXTPNR_COMMIT
       git -C nextpnr log -1
 
       cd $env:APPVEYOR_BUILD_FOLDER\prjtrellis\libtrellis
@@ -51,7 +51,7 @@ install:
       cd $env:APPVEYOR_BUILD_FOLDER\nextpnr
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:/tools/Python/python37.zip", "$($env:APPVEYOR_BUILD_FOLDER)\nextpnr\Lib")
       $prjtrellis = "$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/prjtrellis"
-      echo prjtrellis - $prjtrellis
+      echo "prjtrellis - $prjtrellis"
       cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ecp5 "-DTRELLIS_ROOT=$prjtrellis" "-DPYTRELLIS_LIBDIR=$prjtrellis/libtrellis/release" -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DPYTHON_EXECUTABLE=C:/tools/Python/python.exe -DBUILD_GUI=OFF .
       cmake --build . --config Release
 
