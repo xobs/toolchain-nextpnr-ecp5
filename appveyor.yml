@@ -50,9 +50,12 @@ install:
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:/tools/Python/python37.zip", "$($env:APPVEYOR_BUILD_FOLDER)\nextpnr\Lib")
       $prjtrellis = "$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/prjtrellis"
       $libtrellis = "$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/prjtrellis/libtrellis/release"
-      echo "prjtrellis - $prjtrellis"
+      echo "!!! prjtrellis  $prjtrellis"
       cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ecp5 "-DTRELLIS_ROOT=$prjtrellis" "-DPYTRELLIS_LIBDIR=$libtrellis" -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DPYTHON_EXECUTABLE=C:/tools/Python/python.exe -DBUILD_GUI=OFF .
+      echo "!!! ecp5_chipdb.vcxproj"
       cat ecp5_chipdb.vcxproj
+      echo "!!! Dir C:/projects/toolchain-nextpnr-ecp5/prjtrellis/libtrellis/release:"
+      dir C:/projects/toolchain-nextpnr-ecp5/prjtrellis/libtrellis/release
       cmake --build . --config Release
 
       $nextpnr_src_dir = "$($ENV:APPVEYOR_BUILD_FOLDER)\nextpnr"
