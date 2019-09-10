@@ -74,7 +74,7 @@ install:
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python\Python37.zip", $libdir)
       [System.IO.Compression.ZipFile]::CreateFromDirectory($stage, $zip)
       Push-AppveyorArtifact "$zip"
-      Set-Location $src_dir
+      Set-Location $ENV:APPVEYOR_BUILD_FOLDER
       Remove-Item -recurse -force $stage
 
 deploy:
