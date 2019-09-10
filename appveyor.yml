@@ -30,8 +30,9 @@ install:
       Invoke-WebRequest -uri $env:PYTHON_URI -OutFile C:\tools\python.zip
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python.zip", "C:\tools\Python")
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python\Python37.zip", "C:\tools\Python")
-      $env:PATH += ";C:\tools\python\"
+      $env:PATH = "C:\tools\python\;" + $env:PATH
       Remove-Item -Path C:\Tools\python\python37._pth -Force
+      python -c 'import sys; print(sys.path)'
 
       cd $env:APPVEYOR_BUILD_FOLDER
       git clone $env:PRJTRELLIS_URI prjtrellis
