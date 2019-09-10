@@ -31,6 +31,7 @@ install:
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python.zip", "C:\tools\Python")
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python\Python37.zip", "C:\tools\Python")
       $env:PATH += ";C:\tools\python\"
+      Remove-Item -Path C:\Tools\python\python37._pth -Force
 
       cd $env:APPVEYOR_BUILD_FOLDER
       git clone $env:PRJTRELLIS_URI prjtrellis
@@ -57,6 +58,9 @@ install:
       cat ecp5_chipdb.vcxproj
       echo "!!! Dir C:/projects/toolchain-nextpnr-ecp5/prjtrellis/libtrellis/release:"
       dir C:/projects/toolchain-nextpnr-ecp5/prjtrellis/libtrellis/release
+      echo "!!! Python command:"
+      Get-Command python
+
       cmake --build . --config Release
 
       $nextpnr_src_dir = "$($ENV:APPVEYOR_BUILD_FOLDER)\nextpnr"
