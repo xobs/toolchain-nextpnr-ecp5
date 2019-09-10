@@ -30,6 +30,7 @@ install:
       Invoke-WebRequest -uri $env:PYTHON_URI -OutFile C:\tools\python.zip
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python.zip", "C:\tools\Python")
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python\Python37.zip", "C:\tools\Python")
+      $env:PATH += ";C:\tools\python\"
 
       cd $env:APPVEYOR_BUILD_FOLDER
       git clone $env:PRJTRELLIS_URI prjtrellis
@@ -43,7 +44,7 @@ install:
       git -C nextpnr log -1
 
       cd $env:APPVEYOR_BUILD_FOLDER\prjtrellis\libtrellis
-      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DPYTHON_EXECUTABLE=C:/tools/Python/python.exe -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" . -DBUILD_SHARED=OFF -DSTATIC_BUILD=OFF
+      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" . -DBUILD_SHARED=OFF -DSTATIC_BUILD=OFF
       cmake --build . --config Release
 
       cd $env:APPVEYOR_BUILD_FOLDER\nextpnr
@@ -51,7 +52,7 @@ install:
       $prjtrellis = "$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/prjtrellis"
       $libtrellis = "$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/prjtrellis/libtrellis/release"
       echo "!!! prjtrellis  $prjtrellis"
-      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ecp5 "-DTRELLIS_ROOT=$prjtrellis" "-DPYTRELLIS_LIBDIR=$libtrellis" -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DPYTHON_EXECUTABLE=C:/tools/Python/python.exe -DBUILD_GUI=OFF .
+      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ecp5 "-DTRELLIS_ROOT=$prjtrellis" "-DPYTRELLIS_LIBDIR=$libtrellis" -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DBUILD_GUI=OFF .
       echo "!!! ecp5_chipdb.vcxproj"
       cat ecp5_chipdb.vcxproj
       echo "!!! Dir C:/projects/toolchain-nextpnr-ecp5/prjtrellis/libtrellis/release:"
