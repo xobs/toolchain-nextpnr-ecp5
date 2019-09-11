@@ -16,12 +16,11 @@ ARCH=$1
 TARGET_ARCHS="linux_x86_64 linux_i686 linux_armv7l linux_aarch64 darwin"
 
 # -- Toolchain name
-NAME=nextpnr-ice40
+NAME=nextpnr-ecp5
 
 # -- Debug flags
 INSTALL_DEPS=1
-COMPILE_ICESTORM=0
-COMPILE_NEXTPNR_ICE40=1
+COMPILE_NEXTPNR_ECP5=1
 CREATE_PACKAGE=1
 
 # -- Store current dir
@@ -104,19 +103,11 @@ mkdir -p $BUILD_DIR
 mkdir -p $PACKAGE_DIR/$NAME/bin
 mkdir -p $PACKAGE_DIR/$NAME/share
 
-# --------- Compile icestorm ---------------------------------------
-if [ $COMPILE_ICESTORM == "1" ]; then
-
-  print ">> Compile icestorm"
-  . $WORK_DIR/scripts/compile_icestorm.sh
-
-fi
-
 # --------- Compile nextpnr ------------------------------------
-if [ $COMPILE_NEXTPNR_ICE40 == "1" ]; then
+if [ $COMPILE_NEXTPNR_ECP5 == "1" ]; then
 
-  print ">> Compile nextpnr-ice40"
-  . $WORK_DIR/scripts/compile_nextpnr-ice40.sh
+  print ">> Compile nextpnr-ecp5"
+  . $WORK_DIR/scripts/compile-nextpnr-ecp5.sh
 
 fi
 
