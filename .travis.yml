@@ -29,11 +29,8 @@ script:
 - openssl sha1 _packages/**/*.tar.gz
 deploy:
   provider: releases
-  # - Create a `public_repo` GitHub token. Go to: https://github.com/settings/tokens/new
-  # - Encrypt it: `travis encrypt 0123456789012345678901234567890123456789
-  # - Paste the output down here
   api_key:
-    secure: FVETr4lMQJ9CFLt+fIi5dI+hwtLNTE3VIQvgrFS4BgOXX5+tz98nv4txlZyzoDs4067+9jpQWXJtVKKu4p9KKjkMUFTZyWNS6ODcTEoxvOM4FIahcssRiUNAPZKO2x90Aml1Awe+wTGfuhG5hovwAYn5X03JfzJiackpUDwzC9xMyr5Rlq4Msp7F1h7iXaV5Vhs1vWpsh5ycur8zY1y5frJ87MxrU+CZ5VHratIrMikqt+zRr5TSaHNPMZuBphLcwTE+dxhlAgmLa2wEBQPUI/bGoikEDbc+Bxl4377nxGW+fEeWVQN2bkhrfLMI0I8qGtx9wN76BMeEIuYmW9f34ALpoR36xtsezETkUnhxESJTAAVpSymxB48TmK78LKBjyIoOwX+spopKc8dZaYMzvy7fhyhbXwTO+kIIuntvfoliL+I5im2T9PsKuC8KoykrTyxSpWrBdw8mrjpPbWRcVsUkkFuyAdKEqUb0Tb87WajOnxYMSYfAst58wvxm6Q/7GVBd1yLWj2qYLytjRXAJ0cQ3ZGLfFsIxh+sifBGApIg+m0/ewdwnKapExZU1fBT7nhZP0P90JK0y6cdNkKTBkF9ufDkcghESRRIsFBJ8Jul1/C0kyW7hKmEsGMYep8OdNHmmP56e0MWrY4wr5enWMwyjNX1ZJUEDjRU+b8lN8CM=
+    secure: "u73N97mN+GM66t/DwLkccz8PupxAuIvs0ZlVS4rN+y85B9YzL7lR5b2cK79fCNEfhgJDl+l5AobbBA9+4pj+C6kY9EAeJD4grMAjTVJ3JEolgrfZyRt1Rw4kqQLxhF1kIpn/y6S5H0CzvzIQ8eLfD69DjIuobTVJKRrQrZuK+jgTOF2WGAX0tUe6iWp/vLJNEiJ4pYDi8/JXudZGhvqWFOeCQKCQZl8mkI/GSbGXcuPOGB7jmJudqfUuJX+HnMIQdIahqBwoNwYo9FBxFRJZ0vWV9HgHaM4X6FsnyQe/SXaLxLRwnULT+7IdW5I/61BMmY+N3lGhraMIw+/k4ye3Z3L+FEkRT9TGo5frX8yPCQHM2NVZl+aRAjl6oxOnTzoRuM6LpiHCWrhQVRsWCOhtI2XLjqZQ65bs2ZeZYPpBGOwm6BeVyHbchm7U+XI/8z6cV5QSxxH+vmoBPgXDpGOyZISm8MnRsuOhhEOOyUjhpLgpRDGY6RJ746YiSljaD60Tz5FBN1JlvCPA6oJE4XeqTklAMOiUsOUtacn2sXtQFFf6johzQbZNmCD6Yl9UT0s1BCD2g4KrvFAa3fD7nNLIiWIvacps0pteMIYclvSKw6XQwwVJPH5dKPR4Up4C9HivR84w0xxtoLllG0r2hM+Im8vrtDS0GXPrvYFn7m/sWbw="
   file:
     - _packages/**/*.tar.gz
     - _packages/**/*.zip
