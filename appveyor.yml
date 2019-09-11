@@ -66,7 +66,7 @@ install:
       Set-Location $ENV:Temp
       New-Item -Type Directory -Name $stage_temp
       Set-Location $stage
-      $zip = "$src_dir\nextpnr-ice40-windows_amd64-$($ENV:APPVEYOR_REPO_TAG_NAME).zip"
+      $zip = "$src_dir\nextpnr-ecp5-windows_amd64-$($ENV:APPVEYOR_REPO_TAG_NAME).zip"
       Copy-Item "$nextpnr_src_dir\Release\*.dll" '.\'
       Copy-Item "$nextpnr_src_dir\Release\nextpnr-ecp5.exe" '.\'
       Copy-Item "$libtrellis_src_dir\Release\*.dll" '.\'
