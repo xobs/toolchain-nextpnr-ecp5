@@ -1,5 +1,5 @@
 #!/bin/bash
-# -- Compile nextpnr-ice40 script
+# -- Compile nextpnr-ecp5 script
 
 nextpnr_dir=nextpnr
 nextpnr_uri=https://github.com/xobs/nextpnr
