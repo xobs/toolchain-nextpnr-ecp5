@@ -32,6 +32,13 @@ mkdir -p $BUILD_DIR/$prjtrellis_dir
 rsync -a $nextpnr_dir $BUILD_DIR --exclude .git
 rsync -a $prjtrellis_dir $BUILD_DIR --exclude .git
 
+# NOTE: We build libtrellis with python DISABLED.
+# We do this to speed up build time and to enable static builds.
+# We have a precompiled chipdb in this repository, so there is no
+# need to have Python functioning.
+# Additionally, libtrellis doesn't build correctly when making
+# static binaries and having Python enabled.
+
 cd $BUILD_DIR/
 
 if [ -e $nextpnr_dir/CMakeCache.txt -o -e $prjtrellis_dir/CMakeCache.txt ]
@@ -51,6 +58,7 @@ then
         -DBoost_USE_STATIC_LIBS=ON \
         .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
+    find .
 
     cd $BUILD_DIR/$nextpnr_dir
     cmake -DARCH=ecp5 \
@@ -70,6 +78,8 @@ then
         -DSTATIC_BUILD=ON \
         .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
+    find .
+    cd ..
 elif [ ${ARCH:0:7} = "windows" ]
 then
     echo "Build not functioning on Windows"
@@ -115,11 +125,11 @@ fi || exit 1
 
 # -- Copy the executables to the bin dir
 mkdir -p $PACKAGE_DIR/$NAME/bin
-cp $WORK_DIR/$nextpnr_dir/nextpnr-ecp5$EXE $PACKAGE_DIR/$NAME/bin/nextpnr-ecp5$EXE
+cp $BUILD_DIR/$nextpnr_dir/nextpnr-ecp5$EXE $PACKAGE_DIR/$NAME/bin/nextpnr-ecp5$EXE
 for i in ecpmulti ecppack ecppll ecpunpack
 do
-    cp $WORK_DIR/$prjtrellis_dir/libtrellis/$i$EXE $PACKAGE_DIR/$NAME/bin/$i$EXE
+    cp $BUILD_DIR/$prjtrellis_dir/libtrellis/$i$EXE $PACKAGE_DIR/$NAME/bin/$i$EXE
 done
 
 # Do a test run of the new binary
-# $PACKAGE_DIR/$NAME/bin/nextpnr-ice40$EXE --up5k --package sg48 --pcf $WORK_DIR/build-data/test/top.pcf --json $WORK_DIR/build-data/test/top.json --asc /tmp/nextpnr/top.txt --pre-pack $WORK_DIR/build-data/test/top_pre_pack.py --seed 0 --placer heap
+$PACKAGE_DIR/$NAME/bin/nextpnr-ecp5$EXE --help
