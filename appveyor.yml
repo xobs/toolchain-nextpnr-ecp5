@@ -56,7 +56,7 @@ install:
       $chipdb = "$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/ecp5"
       $prjtrellis = "$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/prjtrellis"
       $libtrellis = "$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/prjtrellis/libtrellis/release"
-      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake "-DEXTERNAL_CHIPDB=$chipdb" -DARCH=ecp5 "-DTRELLIS_ROOT=$prjtrellis" "-DPYTRELLIS_LIBDIR=$libtrellis" -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DBUILD_GUI=OFF .
+      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake "-DEXTERNAL_CHIPDB=$chipdb" -DDEXTERNAL_CHIPDB_ROOT=. -DARCH=ecp5 "-DTRELLIS_ROOT=$prjtrellis" "-DPYTRELLIS_LIBDIR=$libtrellis" -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DBUILD_GUI=OFF .
       cmake --build . --config Release
 
       $nextpnr_src_dir = "$($ENV:APPVEYOR_BUILD_FOLDER)\nextpnr"
@@ -71,6 +71,8 @@ install:
       Copy-Item "$nextpnr_src_dir\Release\nextpnr-ecp5.exe" '.\'
       Copy-Item "$libtrellis_src_dir\Release\*.dll" '.\'
       Copy-Item "$libtrellis_src_dir\Release\*.exe" '.\'
+      New-Item -Type Directory -name ecp5
+      Copy-Item "$env:APPVEYOR_BUILD_FOLDER\ecp5\chipdb\*.bin" '.\ecp5'
       $libdir = "$($stage)\Lib"
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python\Python37.zip", $libdir)
       [System.IO.Compression.ZipFile]::CreateFromDirectory($stage, $zip)

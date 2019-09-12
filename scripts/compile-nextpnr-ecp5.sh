@@ -63,6 +63,7 @@ then
     cd $BUILD_DIR/$nextpnr_dir
     cmake -DARCH=ecp5 \
         -DEXTERNAL_CHIPDB=$WORK_DIR/ecp5 \
+        -DEXTERNAL_CHIPDB_ROOT=../nextpnr/chipdb \
         -DTRELLIS_ROOT=$WORK_DIR/$prjtrellis_dir \
         -DPYTRELLIS_LIBDIR=$WORK_DIR/$prjtrellis_dir/libtrellis \
         -DBOOST_ROOT=/tmp/nextpnr \
@@ -99,6 +100,7 @@ else
     cmake \
         -DARCH=ecp5 \
         -DEXTERNAL_CHIPDB=$WORK_DIR/ecp5 \
+        -DEXTERNAL_CHIPDB_ROOT=../nextpnr/chipdb \
         -DTRELLIS_ROOT=$WORK_DIR/$prjtrellis_dir \
         -DPYTRELLIS_LIBDIR=$WORK_DIR/$prjtrellis_dir/libtrellis \
         -DBUILD_HEAP=ON \
@@ -125,7 +127,9 @@ fi || exit 1
 
 # -- Copy the executables to the bin dir
 mkdir -p $PACKAGE_DIR/$NAME/bin
+mkdir -p $PACKAGE_DIR/$NAME/share/nextpnr/ecp5
 cp $BUILD_DIR/$nextpnr_dir/nextpnr-ecp5$EXE $PACKAGE_DIR/$NAME/bin/nextpnr-ecp5$EXE
+cp $WORK_DIR/ecp5/chipdb/* $PACKAGE_DIR/$NAME/share/nextpnr/ecp5/
 for i in ecpmulti ecppack ecppll ecpunpack
 do
     cp $BUILD_DIR/$prjtrellis_dir/libtrellis/$i$EXE $PACKAGE_DIR/$NAME/bin/$i$EXE
