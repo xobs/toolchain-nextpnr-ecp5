@@ -2,8 +2,8 @@
 # -- Compile nextpnr-ecp5 script
 
 nextpnr_dir=nextpnr
-nextpnr_uri=https://github.com/YosysHQ/nextpnr.git
-nextpnr_commit=927077e03b2e71649a0d691dee8d09bfdf085146
+nextpnr_uri=https://github.com/xobs/nextpnr.git
+nextpnr_commit=9887e2c62c2c7c238c64b7f2661be604eeca3431
 prjtrellis_dir=prjtrellis
 prjtrellis_uri=https://github.com/SymbiFlow/prjtrellis.git
 prjtrellis_commit=40129f3fe8cd9c09b8a19df480f18cde1042e6a0
@@ -88,6 +88,15 @@ then
 else
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
     cmake \
+        -DBUILD_SHARED=ON \
+        -DSTATIC_BUILD=OFF \
+        -DBUILD_PYTHON=ON \
+        -DBoost_USE_STATIC_LIBS=ON \
+        .
+    make -j$J CXX="$CXX"
+    rm -rf CMakeCache.txt
+
+    cmake \
         -DBUILD_SHARED=OFF \
         -DSTATIC_BUILD=ON \
         -DBUILD_PYTHON=OFF \
@@ -99,8 +108,6 @@ else
     cd $BUILD_DIR/$nextpnr_dir
     cmake \
         -DARCH=ecp5 \
-        -DEXTERNAL_CHIPDB=$WORK_DIR/ecp5 \
-        -DEXTERNAL_CHIPDB_ROOT=../nextpnr/chipdb \
         -DTRELLIS_ROOT=$WORK_DIR/$prjtrellis_dir \
         -DPYTRELLIS_LIBDIR=$WORK_DIR/$prjtrellis_dir/libtrellis \
         -DBUILD_HEAP=ON \

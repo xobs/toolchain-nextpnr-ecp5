@@ -3,7 +3,7 @@ image:
 
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
-  NEXTPNR_COMMIT: f98960b9361862d956df59f8129b01005ea41b5c
+  NEXTPNR_COMMIT: 9887e2c62c2c7c238c64b7f2661be604eeca3431
   NEXTPNR_URI: https://github.com/xobs/nextpnr.git
   PRJTRELLIS_COMMIT: 40129f3fe8cd9c09b8a19df480f18cde1042e6a0
   PRJTRELLIS_URI: https://github.com/SymbiFlow/prjtrellis.git
@@ -48,7 +48,7 @@ install:
       git -C nextpnr log -1
 
       cd $env:APPVEYOR_BUILD_FOLDER\prjtrellis\libtrellis
-      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" . -DBUILD_SHARED=OFF -DSTATIC_BUILD=OFF
+      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DBUILD_SHARED=OFF -DSTATIC_BUILD=OFF .
       cmake --build . --config Release
 
       cd $env:APPVEYOR_BUILD_FOLDER\nextpnr
@@ -56,7 +56,7 @@ install:
       $chipdb = "$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/ecp5"
       $prjtrellis = "$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/prjtrellis"
       $libtrellis = "$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/prjtrellis/libtrellis/release"
-      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake "-DEXTERNAL_CHIPDB=$chipdb" -DDEXTERNAL_CHIPDB_ROOT=. -DARCH=ecp5 "-DTRELLIS_ROOT=$prjtrellis" "-DPYTRELLIS_LIBDIR=$libtrellis" -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DBUILD_GUI=OFF .
+      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ecp5 "-DTRELLIS_ROOT=$prjtrellis" "-DPYTRELLIS_LIBDIR=$libtrellis" -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DBUILD_GUI=OFF .
       cmake --build . --config Release
 
       $nextpnr_src_dir = "$($ENV:APPVEYOR_BUILD_FOLDER)\nextpnr"
