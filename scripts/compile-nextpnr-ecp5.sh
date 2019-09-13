@@ -52,18 +52,24 @@ if [ $ARCH = "darwin" ]
 then
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
     cmake \
+        -DBUILD_SHARED=ON \
+        -DSTATIC_BUILD=OFF \
+        -DBUILD_PYTHON=ON \
+        -DBoost_USE_STATIC_LIBS=ON \
+        .
+    make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
+    rm -rf CMakeCache.txt
+
+    cmake \
         -DBUILD_SHARED=OFF \
         -DSTATIC_BUILD=ON \
         -DBUILD_PYTHON=OFF \
-        -DBoost_USE_STATIC_LIBS=ON \
         .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
     find .
 
     cd $BUILD_DIR/$nextpnr_dir
     cmake -DARCH=ecp5 \
-        -DEXTERNAL_CHIPDB=$WORK_DIR/ecp5 \
-        -DEXTERNAL_CHIPDB_ROOT=../nextpnr/chipdb \
         -DTRELLIS_ROOT=$WORK_DIR/$prjtrellis_dir \
         -DPYTRELLIS_LIBDIR=$WORK_DIR/$prjtrellis_dir/libtrellis \
         -DBOOST_ROOT=/tmp/nextpnr \
@@ -75,7 +81,6 @@ then
         -DBUILD_PYTHON=ON \
         -DBUILD_HEAP=ON \
         -DCMAKE_EXE_LINKER_FLAGS='-fno-lto -ldl -lutil' \
-        -DICEBOX_ROOT="$WORK_DIR/icebox" \
         -DSTATIC_BUILD=ON \
         .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
@@ -91,7 +96,6 @@ else
         -DBUILD_SHARED=ON \
         -DSTATIC_BUILD=OFF \
         -DBUILD_PYTHON=ON \
-        -DBoost_USE_STATIC_LIBS=ON \
         .
     make -j$J CXX="$CXX"
     rm -rf CMakeCache.txt
