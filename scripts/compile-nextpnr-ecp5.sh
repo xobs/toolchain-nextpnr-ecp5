@@ -55,6 +55,7 @@ then
         -DBUILD_SHARED=ON \
         -DSTATIC_BUILD=OFF \
         -DBUILD_PYTHON=ON \
+        -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python \
         .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
     rm -rf CMakeCache.txt
