@@ -92,6 +92,8 @@ then
     exit 1
 else
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
+
+    # The first run of the build produces the Python shared library
     cmake \
         -DBUILD_SHARED=ON \
         -DSTATIC_BUILD=OFF \
@@ -100,6 +102,7 @@ else
     make -j$J CXX="$CXX"
     rm -rf CMakeCache.txt
 
+    # The second run builds the static libraries we'll use in the final release
     cmake \
         -DBUILD_SHARED=OFF \
         -DSTATIC_BUILD=ON \
@@ -139,10 +142,12 @@ fi || exit 1
 # -- Copy the executables to the bin dir
 mkdir -p $PACKAGE_DIR/$NAME/bin
 mkdir -p $PACKAGE_DIR/$NAME/share/nextpnr/ecp5
+$WORK_DIR/scripts/test_bin.sh $BUILD_DIR/$nextpnr_dir/nextpnr-ecp5$EXE
 cp $BUILD_DIR/$nextpnr_dir/nextpnr-ecp5$EXE $PACKAGE_DIR/$NAME/bin/nextpnr-ecp5$EXE
 cp $WORK_DIR/ecp5/chipdb/* $PACKAGE_DIR/$NAME/share/nextpnr/ecp5/
 for i in ecpmulti ecppack ecppll ecpunpack
 do
+    $WORK_DIR/scripts/test_bin.sh $BUILD_DIR/$prjtrellis_dir/libtrellis/$i$EXE
     cp $BUILD_DIR/$prjtrellis_dir/libtrellis/$i$EXE $PACKAGE_DIR/$NAME/bin/$i$EXE
 done
 
