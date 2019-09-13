@@ -55,7 +55,6 @@ then
         -DBUILD_SHARED=ON \
         -DSTATIC_BUILD=OFF \
         -DBUILD_PYTHON=ON \
-        -DBoost_USE_STATIC_LIBS=ON \
         .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
     rm -rf CMakeCache.txt
@@ -64,6 +63,7 @@ then
         -DBUILD_SHARED=OFF \
         -DSTATIC_BUILD=ON \
         -DBUILD_PYTHON=OFF \
+        -DBoost_USE_STATIC_LIBS=ON \
         .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
     find .
