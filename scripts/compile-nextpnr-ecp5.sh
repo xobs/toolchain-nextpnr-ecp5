@@ -70,8 +70,8 @@ then
 
     cd $BUILD_DIR/$nextpnr_dir
     cmake -DARCH=ecp5 \
-        -DTRELLIS_ROOT=$WORK_DIR/$prjtrellis_dir \
-        -DPYTRELLIS_LIBDIR=$WORK_DIR/$prjtrellis_dir/libtrellis \
+        -DTRELLIS_ROOT=$BUILD_DIR/$prjtrellis_dir \
+        -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis \
         -DBOOST_ROOT=/tmp/nextpnr \
         -DBoost_USE_STATIC_LIBS=ON \
         -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python \
@@ -112,8 +112,8 @@ else
     cd $BUILD_DIR/$nextpnr_dir
     cmake \
         -DARCH=ecp5 \
-        -DTRELLIS_ROOT=$WORK_DIR/$prjtrellis_dir \
-        -DPYTRELLIS_LIBDIR=$WORK_DIR/$prjtrellis_dir/libtrellis \
+        -DTRELLIS_ROOT=$BUILD_DIR/$prjtrellis_dir \
+        -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis \
         -DBUILD_HEAP=ON \
         -DBUILD_GUI=OFF \
         -DBUILD_PYTHON=ON \
