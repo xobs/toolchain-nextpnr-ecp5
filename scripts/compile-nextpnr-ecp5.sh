@@ -64,10 +64,10 @@ then
         -DBoost_USE_STATIC_LIBS=OFF \
         -DBOOST_ROOT=/tmp/nextpnr \
         -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.dylib \
-        -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python \
+        -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python3.7 \
         .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil" VERBOSE=1
-    otool -L pylibtrellis.so || true
+    otool -L pytrellis.so || true
 
     # rm -rf CMakeCache.txt
     # cmake \
@@ -86,7 +86,7 @@ then
         -DBOOST_ROOT=/tmp/nextpnr \
         -DBoost_USE_STATIC_LIBS=ON \
         -DBOOST_ROOT=/tmp/nextpnr \
-        -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python \
+        -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python3.7 \
         -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.dylib \
         -DEigen3_DIR=/tmp/nextpnr/share/eigen3/cmake \
         -DBUILD_GUI=OFF \
