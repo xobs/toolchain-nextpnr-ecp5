@@ -16,6 +16,9 @@ matrix:
         - gnu-sed
         - wget
         - eigen
+        - python
+        - boost-python3
+        - boost
   # - os: linux
   #   env: TARGET=linux_x86_64
 before_script:

@@ -68,7 +68,7 @@ then
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
     # ls -l /tmp/nextpnr/lib
     # ls -l /tmp/nextpnr/lib/libpython3.7m.dylib
-    echo 'set_target_properties(pytrellis PROPERTIES COMPILE_FLAGS "-undefined dynamic_lookup")' >> CMakeLists.txt
+    echo 'set_target_properties(pytrellis PROPERTIES DYNAMIC_LOOKUP "-undefined dynamic_lookup")' >> CMakeLists.txt
     # echo 'set(CMAKE_MACOSX_RPATH 1)' >> CMakeLists.txt
     # echo 'set_target_properties(pytrellis PROPERTIES INSTALL_RPATH "/tmp/nextpnr/lib")' >> CMakeLists.txt
     # cmake \
@@ -86,17 +86,16 @@ then
         -DSTATIC_BUILD=OFF \
         -DBUILD_PYTHON=ON \
         -DBoost_USE_STATIC_LIBS=ON \
-        -DBOOST_ROOT=/tmp/nextpnr \
+        -DBOOST_ROOT=$(brew --prefix) \
         -DCMAKE_EXE_LINKER_FLAGS='-fno-lto -ldl -lutil' \
-        -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.a \
-        -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python3.7 \
+        -DPYTHON_EXECUTABLE=$(brew --prefix)/bin/python3 \
         .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil" VERBOSE=1
-    cp pytrellis.so /tmp/nextpnr/lib
+    # cp pytrellis.so /tmp/nextpnr/lib
     otool -L pytrellis.so || true
     # $WORK_DIR/scripts/darwin-patch.sh /tmp/nextpnr/lib/pytrellis.so
-    otool -L /tmp/nextpnr/lib/libpython3.7m.dylib || true
-    otool -L /tmp/nextpnr/bin/python3.7 || true
+    # otool -L /tmp/nextpnr/lib/libpython3.7m.dylib || true
+    # otool -L /tmp/nextpnr/bin/python3.7 || true
     # rm -rf CMakeCache.txt
     # cmake \
     #     -DBUILD_SHARED=OFF \
@@ -107,16 +106,17 @@ then
     #     .
     # make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
 #        -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis
+        # -DPYTRELLIS_LIBDIR=/tmp/nextpnr/lib \
 
     cd $BUILD_DIR/$nextpnr_dir
     cmake -DARCH=ecp5 \
         -DTRELLIS_ROOT=$BUILD_DIR/$prjtrellis_dir \
-        -DPYTRELLIS_LIBDIR=/tmp/nextpnr/lib \
+        -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis \
         -DBOOST_ROOT=/tmp/nextpnr \
         -DBoost_USE_STATIC_LIBS=ON \
         -DBOOST_ROOT=/tmp/nextpnr \
-        -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python3.7 \
-        -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.dylib \
+        -DPYTHON_EXECUTABLE=$(brew --prefix)/bin/python3 \
+        -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.a \
         -DEigen3_DIR=/tmp/nextpnr/share/eigen3/cmake \
         -DBUILD_GUI=OFF \
         -DBUILD_PYTHON=ON \
