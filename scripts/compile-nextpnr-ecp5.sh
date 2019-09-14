@@ -49,12 +49,12 @@ then
 fi
 rm -f $nextpnr_dir/CMakeCache.txt $prjtrellis_dir/CMakeCache.txt
 
-for l in $(ls -1 /tmp/nextpnr/lib)
+for l in $(find /tmp/nextpnr/lib -type f -maxdepth 1)
 do
     $WORK_DIR/scripts/darwin-patch.sh "$l"
 done
 
-for l in $(ls -1 /tmp/nextpnr/bin)
+for l in $(find /tmp/nextpnr/bin -type f -maxdepth 1)
 do
     $WORK_DIR/scripts/darwin-patch.sh "$l"
 done
