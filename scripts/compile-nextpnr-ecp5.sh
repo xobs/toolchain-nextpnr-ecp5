@@ -61,12 +61,22 @@ then
         -DBUILD_SHARED=ON \
         -DSTATIC_BUILD=OFF \
         -DBUILD_PYTHON=ON \
-        -DBoost_USE_STATIC_LIBS=ON \
+        -DBoost_USE_STATIC_LIBS=OFF \
         -DBOOST_ROOT=/tmp/nextpnr \
         -DCMAKE_EXE_LINKER_FLAGS='-fno-lto -ldl -lutil' \
-        -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.a \
+        -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.dylib \
         -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python3.7 \
         .
+    # cmake \
+    #     -DBUILD_SHARED=ON \
+    #     -DSTATIC_BUILD=OFF \
+    #     -DBUILD_PYTHON=ON \
+    #     -DBoost_USE_STATIC_LIBS=ON \
+    #     -DBOOST_ROOT=/tmp/nextpnr \
+    #     -DCMAKE_EXE_LINKER_FLAGS='-fno-lto -ldl -lutil' \
+    #     -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.a \
+    #     -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python3.7 \
+    #     .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil" VERBOSE=1
     otool -L pytrellis.so || true
     otool -L /tmp/nextpnr/bin/python3.7 || true
