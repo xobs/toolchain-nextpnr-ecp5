@@ -54,15 +54,15 @@ if [ $ARCH = "darwin" ]
 then
     find /tmp/nextpnr
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
-    ls -l /tmp/nextpnr/lib
-    ls -l /tmp/nextpnr/lib/libpython3.7m.dyld
+    # ls -l /tmp/nextpnr/lib
+    # ls -l /tmp/nextpnr/lib/libpython3.7m.dylib
     cmake \
         -DBUILD_SHARED=ON \
         -DSTATIC_BUILD=OFF \
         -DBUILD_PYTHON=ON \
         -DBoost_USE_STATIC_LIBS=OFF \
         -DBOOST_ROOT=/tmp/nextpnr \
-        -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.dyld \
+        -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.dylib \
         -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python \
         .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil" VERBOSE=1
@@ -85,7 +85,7 @@ then
         -DBoost_USE_STATIC_LIBS=ON \
         -DBOOST_ROOT=/tmp/nextpnr \
         -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python \
-        -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.dyld \
+        -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.dylib \
         -DEigen3_DIR=/tmp/nextpnr/share/eigen3/cmake \
         -DBUILD_GUI=OFF \
         -DBUILD_PYTHON=ON \
