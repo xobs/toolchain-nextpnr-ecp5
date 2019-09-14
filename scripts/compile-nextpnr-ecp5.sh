@@ -49,19 +49,19 @@ then
 fi
 rm -f $nextpnr_dir/CMakeCache.txt $prjtrellis_dir/CMakeCache.txt
 
-for l in $(find /tmp/nextpnr/lib -type f -maxdepth 1)
-do
-    $WORK_DIR/scripts/darwin-patch.sh "$l"
-done
-
-for l in $(find /tmp/nextpnr/bin -type f -maxdepth 1)
-do
-    $WORK_DIR/scripts/darwin-patch.sh "$l"
-done
-
 # -- Compile it
 if [ $ARCH = "darwin" ]
 then
+    for l in $(find /tmp/nextpnr/lib -type f -maxdepth 1)
+    do
+        $WORK_DIR/scripts/darwin-patch.sh "$l"
+    done
+
+    for l in $(find /tmp/nextpnr/bin -type f -maxdepth 1)
+    do
+        $WORK_DIR/scripts/darwin-patch.sh "$l"
+    done
+
     export DYLD_LIBRARY_PATH=/tmp/nextpnr/lib
     export PATH=/tmp/nextpnr/bin:$PATH
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
@@ -90,6 +90,7 @@ then
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil" VERBOSE=1
     cp pytrellis.so /tmp/nextpnr/lib
     otool -L pytrellis.so || true
+    $WORK_DIR/scripts/darwin-patch.sh /tmp/nextpnr/lib/pytrellis.so
     otool -L /tmp/nextpnr/lib/libpython3.7m.dylib || true
     otool -L /tmp/nextpnr/bin/python3.7 || true
     # rm -rf CMakeCache.txt
