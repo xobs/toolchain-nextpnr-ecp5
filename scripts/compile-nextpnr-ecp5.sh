@@ -79,6 +79,7 @@ then
     #     .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil" VERBOSE=1
     otool -L pytrellis.so || true
+    otool -D /tmp/nextpnr/lib/libpython3.7m.dylib || true
     otool -L /tmp/nextpnr/bin/python3.7 || true
     # rm -rf CMakeCache.txt
     # cmake \
