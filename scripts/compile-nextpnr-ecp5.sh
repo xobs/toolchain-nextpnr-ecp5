@@ -1,6 +1,8 @@
 #!/bin/bash
 # -- Compile nextpnr-ecp5 script
 
+set -e
+
 nextpnr_dir=nextpnr
 nextpnr_uri=https://github.com/xobs/nextpnr.git
 nextpnr_commit=9887e2c62c2c7c238c64b7f2661be604eeca3431
@@ -58,11 +60,10 @@ then
         -DBoost_USE_STATIC_LIBS=ON \
         -DBOOST_ROOT=/tmp/nextpnr \
         -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python \
-        -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.dyld \
         .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil" VERBOSE=1
-    # rm -rf CMakeCache.txt
 
+    # rm -rf CMakeCache.txt
     # cmake \
     #     -DBUILD_SHARED=OFF \
     #     -DSTATIC_BUILD=ON \
