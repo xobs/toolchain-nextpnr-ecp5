@@ -53,6 +53,7 @@ rm -f $nextpnr_dir/CMakeCache.txt $prjtrellis_dir/CMakeCache.txt
 if [ $ARCH = "darwin" ]
 then
     export DYLD_LIBRARY_PATH=/tmp/nextpnr/lib
+    export PATH=/tmp/nextpnr/bin:$PATH
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
     # ls -l /tmp/nextpnr/lib
     # ls -l /tmp/nextpnr/lib/libpython3.7m.dylib
@@ -66,6 +67,7 @@ then
         -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python \
         .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil" VERBOSE=1
+    otool -L pylibtrellis.so || true
 
     # rm -rf CMakeCache.txt
     # cmake \
