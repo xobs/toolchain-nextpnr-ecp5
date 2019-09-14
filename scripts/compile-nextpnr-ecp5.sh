@@ -50,6 +50,7 @@ rm -f $nextpnr_dir/CMakeCache.txt $prjtrellis_dir/CMakeCache.txt
 # -- Compile it
 if [ $ARCH = "darwin" ]
 then
+    export DYLD_LIBRARY_PATH=/tmp/nextpnr/lib
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
     cmake \
         -DBUILD_SHARED=ON \
