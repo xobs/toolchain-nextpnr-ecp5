@@ -58,7 +58,7 @@ then
         -DBoost_USE_STATIC_LIBS=ON \
         -DBOOST_ROOT=/tmp/nextpnr \
         -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python \
-        -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.a \
+        -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.dyld \
         .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil" VERBOSE=1
     # rm -rf CMakeCache.txt
