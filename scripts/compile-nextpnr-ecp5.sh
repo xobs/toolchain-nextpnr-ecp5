@@ -49,6 +49,16 @@ then
 fi
 rm -f $nextpnr_dir/CMakeCache.txt $prjtrellis_dir/CMakeCache.txt
 
+for l in $(ls -1 /tmp/nextpnr/lib)
+do
+    $WORK_DIR/scripts/darwin-patch.sh "$l"
+done
+
+for l in $(ls -1 /tmp/nextpnr/bin)
+do
+    $WORK_DIR/scripts/darwin-patch.sh "$l"
+done
+
 # -- Compile it
 if [ $ARCH = "darwin" ]
 then
