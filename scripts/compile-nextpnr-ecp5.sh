@@ -5,7 +5,7 @@ set -e
 
 nextpnr_dir=nextpnr
 nextpnr_uri=https://github.com/xobs/nextpnr.git
-nextpnr_commit=9887e2c62c2c7c238c64b7f2661be604eeca3431
+nextpnr_commit=a9222e01f6f140c08192c94b6403a9c9126c8bdf
 prjtrellis_dir=prjtrellis
 prjtrellis_uri=https://github.com/SymbiFlow/prjtrellis.git
 prjtrellis_commit=40129f3fe8cd9c09b8a19df480f18cde1042e6a0
