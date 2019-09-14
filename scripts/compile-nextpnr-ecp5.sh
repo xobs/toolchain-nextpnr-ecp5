@@ -50,27 +50,27 @@ rm -f $nextpnr_dir/CMakeCache.txt $prjtrellis_dir/CMakeCache.txt
 # -- Compile it
 if [ $ARCH = "darwin" ]
 then
-    export DYLD_LIBRARY_PATH=/tmp/nextpnr/lib
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
     cmake \
         -DBUILD_SHARED=ON \
         -DSTATIC_BUILD=OFF \
         -DBUILD_PYTHON=ON \
+        -DBoost_USE_STATIC_LIBS=ON \
         -DBOOST_ROOT=/tmp/nextpnr \
         -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python \
-        -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.dylib \
+        -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.a \
         .
-    make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
-    rm -rf CMakeCache.txt
+    make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil" VERBOSE=1
+    # rm -rf CMakeCache.txt
 
-    cmake \
-        -DBUILD_SHARED=OFF \
-        -DSTATIC_BUILD=ON \
-        -DBUILD_PYTHON=OFF \
-        -DBOOST_ROOT=/tmp/nextpnr \
-        -DBoost_USE_STATIC_LIBS=ON \
-        .
-    make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
+    # cmake \
+    #     -DBUILD_SHARED=OFF \
+    #     -DSTATIC_BUILD=ON \
+    #     -DBUILD_PYTHON=OFF \
+    #     -DBOOST_ROOT=/tmp/nextpnr \
+    #     -DBoost_USE_STATIC_LIBS=ON \
+    #     .
+    # make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
 
     cd $BUILD_DIR/$nextpnr_dir
     cmake -DARCH=ecp5 \
