@@ -72,7 +72,6 @@ then
         -DBoost_USE_STATIC_LIBS=ON \
         .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
-    find .
 
     cd $BUILD_DIR/$nextpnr_dir
     cmake -DARCH=ecp5 \
@@ -90,8 +89,7 @@ then
         -DCMAKE_EXE_LINKER_FLAGS='-fno-lto -ldl -lutil' \
         -DSTATIC_BUILD=ON \
         .
-    make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
-    find .
+    make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil" VERBOSE=1
     cd ..
 elif [ ${ARCH:0:7} = "windows" ]
 then
