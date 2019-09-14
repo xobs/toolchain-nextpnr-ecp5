@@ -78,6 +78,7 @@ then
     #     -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python3.7 \
     #     .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil" VERBOSE=1
+    cp pytrellis.so /tmp/nextpnr/lib
     otool -L pytrellis.so || true
     otool -L /tmp/nextpnr/lib/libpython3.7m.dylib || true
     otool -L /tmp/nextpnr/bin/python3.7 || true
@@ -90,11 +91,12 @@ then
     #     -DBoost_USE_STATIC_LIBS=ON \
     #     .
     # make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
+#        -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis
 
     cd $BUILD_DIR/$nextpnr_dir
     cmake -DARCH=ecp5 \
         -DTRELLIS_ROOT=$BUILD_DIR/$prjtrellis_dir \
-        -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis \
+        -DPYTRELLIS_LIBDIR=/tmp/nextpnr/lib \
         -DBOOST_ROOT=/tmp/nextpnr \
         -DBoost_USE_STATIC_LIBS=ON \
         -DBOOST_ROOT=/tmp/nextpnr \
