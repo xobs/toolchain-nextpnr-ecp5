@@ -5,7 +5,7 @@ set -e
 
 nextpnr_dir=nextpnr
 nextpnr_uri=https://github.com/xobs/nextpnr.git
-nextpnr_commit=927077e03b2e71649a0d691dee8d09bfdf085146
+nextpnr_commit=9887e2c62c2c7c238c64b7f2661be604eeca3431
 prjtrellis_dir=prjtrellis
 prjtrellis_uri=https://github.com/SymbiFlow/prjtrellis.git
 prjtrellis_commit=40129f3fe8cd9c09b8a19df480f18cde1042e6a0
@@ -63,7 +63,8 @@ then
         -DBUILD_PYTHON=ON \
         -DBoost_USE_STATIC_LIBS=ON \
         -DBOOST_ROOT=/tmp/nextpnr \
-        -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.dylib \
+        -DCMAKE_EXE_LINKER_FLAGS='-fno-lto -ldl -lutil' \
+        -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.a \
         -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python3.7 \
         .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil" VERBOSE=1
