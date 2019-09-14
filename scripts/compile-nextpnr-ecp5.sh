@@ -67,6 +67,8 @@ then
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
     # ls -l /tmp/nextpnr/lib
     # ls -l /tmp/nextpnr/lib/libpython3.7m.dylib
+    echo 'set(CMAKE_MACOSX_RPATH 1)' >> CMakeLists.txt
+    echo 'set_target_properties(pytrellis PROPERTIES INSTALL_RPATH "/tmp/nextpnr/lib")' >> CMakeLists.txt
     cmake \
         -DBUILD_SHARED=ON \
         -DSTATIC_BUILD=OFF \
