@@ -56,8 +56,6 @@ then
         -DBUILD_SHARED=ON \
         -DSTATIC_BUILD=OFF \
         -DBUILD_PYTHON=ON \
-        -DBoost_USE_STATIC_LIBS=ON \
-        -DSTATIC_BUILD=ON \
         -DBOOST_ROOT=/tmp/nextpnr \
         -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python \
         .
