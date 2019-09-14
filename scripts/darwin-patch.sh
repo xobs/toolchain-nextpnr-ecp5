@@ -8,7 +8,7 @@ fi
 
 echo "Removing @rpath from $prog_name"
 base_pkg=$(echo ${prog_name} | cut -d/ -f5)
-install_name_tool -delete_rpath @rpath/$base_pkg $prog_name || true
+install_name_tool -id $base_pkg $prog_name || true
 otool -L "$prog_name" | while read i
 do
 	if ! echo $i | grep -q "@rpath"
