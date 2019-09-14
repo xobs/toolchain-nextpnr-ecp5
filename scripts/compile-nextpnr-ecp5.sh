@@ -58,6 +58,7 @@ then
         -DBUILD_PYTHON=ON \
         -DBOOST_ROOT=/tmp/nextpnr \
         -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python \
+        -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.dylib \
         .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
     rm -rf CMakeCache.txt
