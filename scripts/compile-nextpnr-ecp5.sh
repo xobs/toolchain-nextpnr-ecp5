@@ -57,6 +57,7 @@ then
         -DBUILD_PYTHON=ON \
         -DBoost_USE_STATIC_LIBS=ON \
         -DSTATIC_BUILD=ON \
+        -DBOOST_ROOT=/tmp/nextpnr \
         -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python \
         .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
@@ -66,6 +67,7 @@ then
         -DBUILD_SHARED=OFF \
         -DSTATIC_BUILD=ON \
         -DBUILD_PYTHON=OFF \
+        -DBOOST_ROOT=/tmp/nextpnr \
         -DBoost_USE_STATIC_LIBS=ON \
         .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
@@ -77,6 +79,7 @@ then
         -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis \
         -DBOOST_ROOT=/tmp/nextpnr \
         -DBoost_USE_STATIC_LIBS=ON \
+        -DBOOST_ROOT=/tmp/nextpnr \
         -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python \
         -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.a \
         -DEigen3_DIR=/tmp/nextpnr/share/eigen3/cmake \
