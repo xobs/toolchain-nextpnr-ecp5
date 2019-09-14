@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 # -- Compile nextpnr-ecp5 script
 
 set -e
@@ -52,7 +52,10 @@ rm -f $nextpnr_dir/CMakeCache.txt $prjtrellis_dir/CMakeCache.txt
 # -- Compile it
 if [ $ARCH = "darwin" ]
 then
+    find /tmp/nextpnr
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
+    ls -l /tmp/nextpnr/lib
+    ls -l /tmp/nextpnr/lib/libpython3.7m.dyld
     cmake \
         -DBUILD_SHARED=ON \
         -DSTATIC_BUILD=OFF \
