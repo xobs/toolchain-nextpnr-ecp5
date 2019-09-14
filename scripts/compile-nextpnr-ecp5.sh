@@ -57,8 +57,9 @@ then
         -DBUILD_SHARED=ON \
         -DSTATIC_BUILD=OFF \
         -DBUILD_PYTHON=ON \
-        -DBoost_USE_STATIC_LIBS=ON \
+        -DBoost_USE_STATIC_LIBS=OFF \
         -DBOOST_ROOT=/tmp/nextpnr \
+        -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.dyld \
         -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python \
         .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil" VERBOSE=1
@@ -81,7 +82,7 @@ then
         -DBoost_USE_STATIC_LIBS=ON \
         -DBOOST_ROOT=/tmp/nextpnr \
         -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python \
-        -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.a \
+        -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.dyld \
         -DEigen3_DIR=/tmp/nextpnr/share/eigen3/cmake \
         -DBUILD_GUI=OFF \
         -DBUILD_PYTHON=ON \
