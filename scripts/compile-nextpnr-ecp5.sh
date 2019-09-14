@@ -86,7 +86,6 @@ then
         -DSTATIC_BUILD=OFF \
         -DBUILD_PYTHON=ON \
         -DBoost_USE_STATIC_LIBS=OFF \
-        -DBOOST_ROOT=$(brew --prefix boost) \
         -DCMAKE_EXE_LINKER_FLAGS='-fno-lto -ldl -lutil' \
         -DPYTHON_EXECUTABLE=$(brew --prefix)/bin/python3 \
         .
