@@ -52,7 +52,7 @@ rm -f $nextpnr_dir/CMakeCache.txt $prjtrellis_dir/CMakeCache.txt
 # -- Compile it
 if [ $ARCH = "darwin" ]
 then
-    find /tmp/nextpnr
+    export DYLD_LIBRARY_PATH=/tmp/nextpnr/lib
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
     # ls -l /tmp/nextpnr/lib
     # ls -l /tmp/nextpnr/lib/libpython3.7m.dylib
