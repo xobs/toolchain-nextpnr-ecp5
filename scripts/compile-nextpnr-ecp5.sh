@@ -63,9 +63,9 @@ then
     # done
     # brew update
     brew install boost boost-python3 python cmake
-    export DYLD_LIBRARY_PATH=/tmp/nextpnr/lib
-    export DYLD_FALLBACK_LIBRARY_PATH=/tmp/nextpnr/lib
-    export PATH=/tmp/nextpnr/bin:$PATH
+    # export DYLD_LIBRARY_PATH=/tmp/nextpnr/lib
+    # export DYLD_FALLBACK_LIBRARY_PATH=/tmp/nextpnr/lib
+    # export PATH=/tmp/nextpnr/bin:$PATH
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
     # ls -l /tmp/nextpnr/lib
     # ls -l /tmp/nextpnr/lib/libpython3.7m.dylib
