@@ -81,7 +81,7 @@ then
     #     -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.dylib \
     #     -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python3.7 \
     #     .
-    cmake \
+    $(brew --prefix)/bin/cmake \
         -DBUILD_SHARED=ON \
         -DSTATIC_BUILD=OFF \
         -DBUILD_PYTHON=ON \
