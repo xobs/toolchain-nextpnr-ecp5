@@ -63,6 +63,7 @@ then
     # done
     # brew update
     brew install boost boost-python3 python cmake
+    brew upgrade
     # export DYLD_LIBRARY_PATH=/tmp/nextpnr/lib
     # export DYLD_FALLBACK_LIBRARY_PATH=/tmp/nextpnr/lib
     # export PATH=/tmp/nextpnr/bin:$PATH
