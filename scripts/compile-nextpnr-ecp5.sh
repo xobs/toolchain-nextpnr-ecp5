@@ -61,7 +61,7 @@ then
     # do
     #     $WORK_DIR/scripts/darwin-patch.sh "$l"
     # done
-    brew update
+    # brew update
     brew install boost boost-python3 python cmake
     export DYLD_LIBRARY_PATH=/tmp/nextpnr/lib
     export DYLD_FALLBACK_LIBRARY_PATH=/tmp/nextpnr/lib
