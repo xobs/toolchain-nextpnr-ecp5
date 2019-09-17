@@ -3,7 +3,7 @@ image:
 
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
-  NEXTPNR_COMMIT: 9887e2c62c2c7c238c64b7f2661be604eeca3431
+  NEXTPNR_COMMIT: 7cda79f9b70c23b90a21f4a96af0c42bb15b3a66
   NEXTPNR_URI: https://github.com/xobs/nextpnr.git
   PRJTRELLIS_COMMIT: 40129f3fe8cd9c09b8a19df480f18cde1042e6a0
   PRJTRELLIS_URI: https://github.com/SymbiFlow/prjtrellis.git
@@ -15,10 +15,26 @@ environment:
 
 install:
   - ps: |
-      If ($Env:TARGET -eq 'x86_64-pc-windows-gnu') {
-        $Env:PATH += ';C:\msys64\mingw64\bin'
-      } ElseIf ($Env:TARGET -eq 'i686-pc-windows-gnu') {
-        $Env:PATH += ';C:\msys64\mingw32\bin'
+      Function DeGZip-File{
+          Param(
+              $infile,
+              $outfile = ($infile -replace '\.gz$','')
+              )
+
+          $input = New-Object System.IO.FileStream $inFile, ([IO.FileMode]::Open), ([IO.FileAccess]::Read), ([IO.FileShare]::Read)
+          $output = New-Object System.IO.FileStream $outFile, ([IO.FileMode]::Create), ([IO.FileAccess]::Write), ([IO.FileShare]::None)
+          $gzipStream = New-Object System.IO.Compression.GzipStream $input, ([IO.Compression.CompressionMode]::Decompress)
+
+          $buffer = New-Object byte[](1024)
+          while($true){
+              $read = $gzipstream.Read($buffer, 0, 1024)
+              if ($read -le 0){break}
+              $output.Write($buffer, 0, $read)
+              }
+
+          $gzipStream.Close()
+          $output.Close()
+          $input.Close()
       }
       Add-Type -AssemblyName System.IO.Compression.FileSystem
       cd C:\tools\vcpkg
@@ -33,6 +49,11 @@ install:
       $env:PATH = "C:\tools\python\;" + $env:PATH
       Remove-Item -Path C:\Tools\python\python37._pth -Force
       python -c 'import sys; print(sys.path)'
+
+      cd $env:APPVEYOR_BUILD_FOLDER\chipdb
+      DeGZip-File "$($ENV:APPVEYOR_BUILD_FOLDER)\chipdb\chipdb-25k.bba.gz" "$($ENV:APPVEYOR_BUILD_FOLDER)\chipdb\chipdb-25k.bba"
+      DeGZip-File "$($ENV:APPVEYOR_BUILD_FOLDER)\chipdb\chipdb-45k.bba.gz" "$($ENV:APPVEYOR_BUILD_FOLDER)\chipdb\chipdb-45k.bba"
+      DeGZip-File "$($ENV:APPVEYOR_BUILD_FOLDER)\chipdb\chipdb-85k.bba.gz" "$($ENV:APPVEYOR_BUILD_FOLDER)\chipdb\chipdb-85k.bba"
 
       cd $env:APPVEYOR_BUILD_FOLDER
       git clone $env:PRJTRELLIS_URI prjtrellis
@@ -56,7 +77,8 @@ install:
       $chipdb = "$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/ecp5"
       $prjtrellis = "$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/prjtrellis"
       $libtrellis = "$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/prjtrellis/libtrellis/release"
-      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ecp5 "-DTRELLIS_ROOT=$prjtrellis" "-DPYTRELLIS_LIBDIR=$libtrellis" -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DBUILD_GUI=OFF .
+      $chipdb = "$($env:APPVEYOR_BUILD_FOLDER.replace("\", "/"))/chipdb"
+      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DARCH=ecp5 "-DTRELLIS_ROOT=$prjtrellis" "-DPYTRELLIS_LIBDIR=$libtrellis" "-DPREGENERATED_BBA_PATH=$chipdb" -DCMAKE_TOOLCHAIN_FILE=C:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DBUILD_GUI=OFF .
       cmake --build . --config Release
 
       $nextpnr_src_dir = "$($ENV:APPVEYOR_BUILD_FOLDER)\nextpnr"

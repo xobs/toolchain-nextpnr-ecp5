@@ -5,7 +5,7 @@ set -e
 
 nextpnr_dir=nextpnr
 nextpnr_uri=https://github.com/xobs/nextpnr.git
-nextpnr_commit=a9222e01f6f140c08192c94b6403a9c9126c8bdf
+nextpnr_commit=7cda79f9b70c23b90a21f4a96af0c42bb15b3a66
 prjtrellis_dir=prjtrellis
 prjtrellis_uri=https://github.com/SymbiFlow/prjtrellis.git
 prjtrellis_commit=40129f3fe8cd9c09b8a19df480f18cde1042e6a0
@@ -52,71 +52,34 @@ rm -f $nextpnr_dir/CMakeCache.txt $prjtrellis_dir/CMakeCache.txt
 # -- Compile it
 if [ $ARCH = "darwin" ]
 then
-    # for l in $(find /tmp/nextpnr/lib -type f -maxdepth 1)
-    # do
-    #     $WORK_DIR/scripts/darwin-patch.sh "$l"
-    # done
+    cd $BUILD_DIR
+    mkdir chipdb
+    cd chipdb
+    for i in $(ls $WORK_DIR/chipdb/*.gz)
+    do
+        cp $i .
+        gunzip $(basename $i)
+    done
 
-    # for l in $(find /tmp/nextpnr/bin -type f -maxdepth 1)
-    # do
-    #     $WORK_DIR/scripts/darwin-patch.sh "$l"
-    # done
-    # brew update
-    brew install boost boost-python3 python cmake
-    brew upgrade
-    # export DYLD_LIBRARY_PATH=/tmp/nextpnr/lib
-    # export DYLD_FALLBACK_LIBRARY_PATH=/tmp/nextpnr/lib
-    # export PATH=/tmp/nextpnr/bin:$PATH
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
-    # ls -l /tmp/nextpnr/lib
-    # ls -l /tmp/nextpnr/lib/libpython3.7m.dylib
-    echo 'set_target_properties(pytrellis PROPERTIES DYNAMIC_LOOKUP "-undefined dynamic_lookup")' >> CMakeLists.txt
-    # echo 'set(CMAKE_MACOSX_RPATH 1)' >> CMakeLists.txt
-    # echo 'set_target_properties(pytrellis PROPERTIES INSTALL_RPATH "/tmp/nextpnr/lib")' >> CMakeLists.txt
-    # cmake \
-    #     -DBUILD_SHARED=ON \
-    #     -DSTATIC_BUILD=OFF \
-    #     -DBUILD_PYTHON=ON \
-    #     -DBoost_USE_STATIC_LIBS=OFF \
-    #     -DBOOST_ROOT=/tmp/nextpnr \
-    #     -DCMAKE_EXE_LINKER_FLAGS='-fno-lto -ldl -lutil' \
-    #     -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.dylib \
-    #     -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python3.7 \
-    #     .
-    $(brew --prefix)/bin/cmake \
-        -DBUILD_SHARED=ON \
-        -DSTATIC_BUILD=OFF \
-        -DBUILD_PYTHON=ON \
-        -DBoost_USE_STATIC_LIBS=OFF \
-        -DCMAKE_EXE_LINKER_FLAGS='-fno-lto -ldl -lutil' \
-        -DPYTHON_EXECUTABLE=$(brew --prefix)/bin/python3 \
+    cmake \
+        -DBUILD_SHARED=OFF \
+        -DSTATIC_BUILD=ON \
+        -DBUILD_PYTHON=OFF \
+        -DBOOST_ROOT=/tmp/nextpnr \
+        -DBoost_USE_STATIC_LIBS=ON \
         .
-    make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil" VERBOSE=1
-    # cp pytrellis.so /tmp/nextpnr/lib
-    otool -L pytrellis.so || true
-    # $WORK_DIR/scripts/darwin-patch.sh /tmp/nextpnr/lib/pytrellis.so
-    # otool -L /tmp/nextpnr/lib/libpython3.7m.dylib || true
-    # otool -L /tmp/nextpnr/bin/python3.7 || true
-    # rm -rf CMakeCache.txt
-    # cmake \
-    #     -DBUILD_SHARED=OFF \
-    #     -DSTATIC_BUILD=ON \
-    #     -DBUILD_PYTHON=OFF \
-    #     -DBOOST_ROOT=/tmp/nextpnr \
-    #     -DBoost_USE_STATIC_LIBS=ON \
-    #     .
-    # make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
-#        -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis
-        # -DPYTRELLIS_LIBDIR=/tmp/nextpnr/lib \
+    make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
 
     cd $BUILD_DIR/$nextpnr_dir
     cmake -DARCH=ecp5 \
         -DTRELLIS_ROOT=$BUILD_DIR/$prjtrellis_dir \
         -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis \
+        -DPREGENERATED_BBA_ROOT=$BUILD_DIR/chipdb \
         -DBOOST_ROOT=/tmp/nextpnr \
         -DBoost_USE_STATIC_LIBS=ON \
         -DBOOST_ROOT=/tmp/nextpnr \
-        -DPYTHON_EXECUTABLE=$(brew --prefix)/bin/python3 \
+        -DPYTHON_EXECUTABLE=/tmp/nextpnr/lib/bin/python3 \
         -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.a \
         -DEigen3_DIR=/tmp/nextpnr/share/eigen3/cmake \
         -DBUILD_GUI=OFF \
