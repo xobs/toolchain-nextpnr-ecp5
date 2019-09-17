@@ -90,6 +90,7 @@ then
         -DBUILD_HEAP=ON \
         -DCMAKE_EXE_LINKER_FLAGS='-fno-lto -ldl -lutil' \
         -DSTATIC_BUILD=ON \
+        -DUSE_OPENMP=ON \
         .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil" VERBOSE=1
     cd ..
@@ -142,6 +143,7 @@ else
         -DBUILD_PYTHON=ON \
         -DSTATIC_BUILD=ON \
         -DBoost_USE_STATIC_LIBS=ON \
+        -DUSE_OPENMP=ON \
         .
     make -j$J CXX="$CXX"
 
