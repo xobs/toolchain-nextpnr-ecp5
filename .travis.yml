@@ -4,7 +4,7 @@ language: cpp
 matrix:
   include:
   - os: osx
-    env: TARGET=darwin MACOSX_DEPLOYMENT_TARGET=10.13
+    env: TARGET=darwin MACOSX_DEPLOYMENT_TARGET=10.10
     addons:
       homebrew:
         packages:
@@ -13,15 +13,8 @@ matrix:
         - gawk
         - cmake
         - git
-        - pkg-config
-        - gnu-sed
-        - wget
-        - eigen
-        - python
-        - boost-python3
-        - boost
-  # - os: linux
-  #   env: TARGET=linux_x86_64
+  - os: linux
+    env: TARGET=linux_x86_64
 before_script:
 - if [[ ${TARGET:0:7} == "windows" ]]; then sudo dpkg --add-architecture i386; fi
 - if [[ "$ARCH" == "linux_i686" ]]; then sudo dpkg --add-architecture i386; fi
