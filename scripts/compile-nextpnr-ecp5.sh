@@ -67,10 +67,12 @@ then
         -DSTATIC_BUILD=ON \
         -DBUILD_PYTHON=OFF \
         -DBOOST_ROOT=/tmp/nextpnr \
+        -DCMAKE_INSTALL_PREFIX=$PACKAGE_DIR/$NAME \
         -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python3 \
         -DBoost_USE_STATIC_LIBS=ON \
         .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
+    make install
 
     cd $BUILD_DIR/$nextpnr_dir
     cmake -DARCH=ecp5 \
@@ -123,9 +125,11 @@ else
         -DSTATIC_BUILD=ON \
         -DBUILD_PYTHON=OFF \
         -DBoost_USE_STATIC_LIBS=ON \
+        -DCMAKE_INSTALL_PREFIX=$PACKAGE_DIR/$NAME \
         -DCMAKE_FIND_LIBRARY_SUFFIXES=".a" \
         .
     make -j$J CXX="$CXX"
+    make install
 
     cd $BUILD_DIR/$nextpnr_dir
     cmake \
@@ -157,7 +161,6 @@ fi || exit 1
 
 # -- Copy the executables to the bin dir
 mkdir -p $PACKAGE_DIR/$NAME/bin
-mkdir -p $PACKAGE_DIR/$NAME/share/nextpnr/ecp5
 $WORK_DIR/scripts/test_bin.sh $BUILD_DIR/$nextpnr_dir/nextpnr-ecp5$EXE
 cp $BUILD_DIR/$nextpnr_dir/nextpnr-ecp5$EXE $PACKAGE_DIR/$NAME/bin/nextpnr-ecp5$EXE
 for i in ecpmulti ecppack ecppll ecpunpack

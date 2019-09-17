@@ -37,6 +37,10 @@ install:
           $input.Close()
       }
       Add-Type -AssemblyName System.IO.Compression.FileSystem
+
+      $stage_temp = [System.Guid]::NewGuid().ToString()
+      $stage = "$($ENV:Temp)\$($stage_temp)"
+
       cd C:\tools\vcpkg
       git rev-parse HEAD
       git checkout $env:VCPKG_COMMIT
@@ -69,8 +73,8 @@ install:
       git -C nextpnr log -1
 
       cd $env:APPVEYOR_BUILD_FOLDER\prjtrellis\libtrellis
-      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DBUILD_SHARED=OFF -DSTATIC_BUILD=OFF .
-      cmake --build . --config Release
+      cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows -G "Visual Studio 15 2017 Win64" -DBUILD_SHARED=OFF -DSTATIC_BUILD=OFF "-DDCMAKE_INSTALL_PREFIX=$stage" .
+      cmake --build . --target install --config Release
 
       cd $env:APPVEYOR_BUILD_FOLDER\nextpnr
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:/tools/Python/python37.zip", "$($env:APPVEYOR_BUILD_FOLDER)\nextpnr\Lib")
@@ -83,19 +87,16 @@ install:
 
       $nextpnr_src_dir = "$($ENV:APPVEYOR_BUILD_FOLDER)\nextpnr"
       $libtrellis_src_dir = "$($ENV:APPVEYOR_BUILD_FOLDER)\prjtrellis\libtrellis"
-      $stage_temp = [System.Guid]::NewGuid().ToString()
-      $stage = "$($ENV:Temp)\$($stage_temp)"
       Set-Location $ENV:Temp
       New-Item -Type Directory -Name $stage_temp
       Set-Location $stage
+      New-Item -Type Directory -Name bin
       $zip = "$src_dir\nextpnr-ecp5-windows_amd64-$($ENV:APPVEYOR_REPO_TAG_NAME).zip"
-      Copy-Item "$nextpnr_src_dir\Release\*.dll" '.\'
-      Copy-Item "$nextpnr_src_dir\Release\nextpnr-ecp5.exe" '.\'
-      Copy-Item "$libtrellis_src_dir\Release\*.dll" '.\'
-      Copy-Item "$libtrellis_src_dir\Release\*.exe" '.\'
-      New-Item -Type Directory -name ecp5
-      Copy-Item "$env:APPVEYOR_BUILD_FOLDER\ecp5\chipdb\*.bin" '.\ecp5'
-      $libdir = "$($stage)\Lib"
+      Copy-Item "$nextpnr_src_dir\Release\*.dll" '.\bin'
+      Copy-Item "$nextpnr_src_dir\Release\nextpnr-ecp5.exe" '.\bin'
+      Copy-Item "$libtrellis_src_dir\Release\*.dll" '.\bin'
+      Copy-Item "$libtrellis_src_dir\Release\*.exe" '.\bin'
+      $libdir = "$($stage)\bin\Lib"
       [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\tools\python\Python37.zip", $libdir)
       [System.IO.Compression.ZipFile]::CreateFromDirectory($stage, $zip)
       Push-AppveyorArtifact "$zip"
