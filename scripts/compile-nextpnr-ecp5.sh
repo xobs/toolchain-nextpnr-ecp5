@@ -75,6 +75,7 @@ then
     make install
 
     cd $BUILD_DIR/$nextpnr_dir
+    echo 'set(CMAKE_CXX_FLAGS_RELEASE "-Xpreprocessor -fopenmp -lomp -Wall -fPIC -O3 -g -pipe")' >> CmakeLists.txt
     cmake -DARCH=ecp5 \
         -DTRELLIS_ROOT=$BUILD_DIR/$prjtrellis_dir \
         -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis \
