@@ -58,7 +58,7 @@ then
     for i in $(ls $WORK_DIR/chipdb/*.gz)
     do
         cp $i .
-        gunzip $(basename $i)
+        gunzip -f $(basename $i)
     done
 
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
@@ -67,6 +67,7 @@ then
         -DSTATIC_BUILD=ON \
         -DBUILD_PYTHON=OFF \
         -DBOOST_ROOT=/tmp/nextpnr \
+        -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python3 \
         -DBoost_USE_STATIC_LIBS=ON \
         .
     make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil"
@@ -75,12 +76,12 @@ then
     cmake -DARCH=ecp5 \
         -DTRELLIS_ROOT=$BUILD_DIR/$prjtrellis_dir \
         -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis \
-        -DPREGENERATED_BBA_ROOT=$BUILD_DIR/chipdb \
+        -DPREGENERATED_BBA_PATH=$BUILD_DIR/chipdb \
         -DBOOST_ROOT=/tmp/nextpnr \
         -DBoost_USE_STATIC_LIBS=ON \
         -DBOOST_ROOT=/tmp/nextpnr \
-        -DPYTHON_EXECUTABLE=/tmp/nextpnr/lib/bin/python3 \
-        -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.7m.a \
+        -DPYTHON_EXECUTABLE=/tmp/nextpnr/bin/python3 \
+        -DPYTHON_LIBRARY=/tmp/nextpnr/lib/libpython3.6m.a \
         -DEigen3_DIR=/tmp/nextpnr/share/eigen3/cmake \
         -DBUILD_GUI=OFF \
         -DBUILD_PYTHON=ON \
@@ -148,7 +149,6 @@ mkdir -p $PACKAGE_DIR/$NAME/bin
 mkdir -p $PACKAGE_DIR/$NAME/share/nextpnr/ecp5
 $WORK_DIR/scripts/test_bin.sh $BUILD_DIR/$nextpnr_dir/nextpnr-ecp5$EXE
 cp $BUILD_DIR/$nextpnr_dir/nextpnr-ecp5$EXE $PACKAGE_DIR/$NAME/bin/nextpnr-ecp5$EXE
-cp $WORK_DIR/ecp5/chipdb/* $PACKAGE_DIR/$NAME/share/nextpnr/ecp5/
 for i in ecpmulti ecppack ecppll ecpunpack
 do
     $WORK_DIR/scripts/test_bin.sh $BUILD_DIR/$prjtrellis_dir/libtrellis/$i$EXE
