@@ -9,14 +9,14 @@ export LC_ALL=C
 # Generate toolchain-icestorm-arch-ver.tar.gz from source code
 # sources: http://www.clifford.at/icestorm/
 
-VERSION="${TRAVIS_TAG}"
+export VERSION="${TRAVIS_TAG}"
 
 # -- Target architectures
-ARCH=$1
+export ARCH=$1
 TARGET_ARCHS="linux_x86_64 linux_i686 linux_armv7l linux_aarch64 darwin"
 
 # -- Toolchain name
-NAME=nextpnr-ecp5
+export NAME=nextpnr-ecp5
 
 # -- Debug flags
 INSTALL_DEPS=1
@@ -24,13 +24,13 @@ COMPILE_NEXTPNR_ECP5=1
 CREATE_PACKAGE=1
 
 # -- Store current dir
-WORK_DIR=$PWD
+export WORK_DIR=$PWD
 # -- Folder for building the source code
-BUILDS_DIR=$WORK_DIR/_builds
+export BUILDS_DIR=$WORK_DIR/_builds
 # -- Folder for storing the generated packages
-PACKAGES_DIR=$WORK_DIR/_packages
+export PACKAGES_DIR=$WORK_DIR/_packages
 # --  Folder for storing the source code from github
-UPSTREAM_DIR=$WORK_DIR/_upstream
+export UPSTREAM_DIR=$WORK_DIR/_upstream
 
 # -- Create the build directory
 mkdir -p $BUILDS_DIR
@@ -83,10 +83,10 @@ echo ""
 echo ">>> ARCHITECTURE \"$ARCH\""
 
 # -- Directory for compiling the tools
-BUILD_DIR=$BUILDS_DIR/build_$ARCH
+export BUILD_DIR=$BUILDS_DIR/build_$ARCH
 
 # -- Directory for installation the target files
-PACKAGE_DIR=$PACKAGES_DIR/build_$ARCH
+export PACKAGE_DIR=$PACKAGES_DIR/build_$ARCH
 
 # --------- Instal dependencies ------------------------------------
 if [ $INSTALL_DEPS == "1" ]; then
@@ -107,7 +107,7 @@ mkdir -p $PACKAGE_DIR/$NAME/share
 if [ $COMPILE_NEXTPNR_ECP5 == "1" ]; then
 
   print ">> Compile nextpnr-ecp5"
-  . $WORK_DIR/scripts/compile-nextpnr-ecp5.sh
+  $WORK_DIR/scripts/compile-nextpnr-ecp5.sh
 
 fi
 
