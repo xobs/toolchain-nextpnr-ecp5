@@ -75,26 +75,18 @@ if [ $ARCH == "windows_amd64" ]; then
 fi
 
 if [ $ARCH == "darwin" ]; then
-  # brew_deps="bison flex gawk git pkg-config gnu-sed wget eigen"
-  # brew unlink $brew_deps && brew link --force $brew_deps
+    for dep in $(ls -1 $WORK_DIR/build-data/darwin/*.bz2)
+    do
+        mkdir -p /tmp/nextpnr
+        pushd /tmp/nextpnr
+        echo "Extracting $dep..."
+        tar xjf $dep
+        popd
+    done
 
-  deps="boost-1.67.0-py37_4.tar.bz2 \
-        eigen3-3.3.7-0.tar.bz2 \
-        py-boost-1.67.0-py37h6440ff4_4.tar.bz2 \
-        libboost-1.67.0-hebc422b_4.tar.bz2 \
-        python-3.7.4-h359304d_1.tar.bz2"
-  for dep in $deps
-  do
-    mkdir -p /tmp/nextpnr
-    pushd /tmp/nextpnr
-    echo "Extracting $dep..."
-    tar xjf $WORK_DIR/build-data/darwin/$dep
+    # Also extracy Python to our install path, since we'll need it on Darwin
+    mkdir -p $PACKAGE_DIR/$NAME
+    pushd $PACKAGE_DIR/$NAME
+    tar xjf $WORK_DIR/build-data/darwin/python-*.bz2
     popd
-  done
-
-  # Also extracy Python to our install path, since we'll need it on Darwin
-  mkdir -p $PACKAGE_DIR/$NAME
-  pushd $PACKAGE_DIR/$NAME
-  tar xjf $WORK_DIR/build-data/darwin/python-3.7.4-h359304d_1.tar.bz2
-  popd
 fi
