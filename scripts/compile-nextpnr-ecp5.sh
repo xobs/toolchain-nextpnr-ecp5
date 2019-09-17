@@ -96,6 +96,15 @@ then
     echo "Build not functioning on Windows"
     exit 1
 else
+    cd $BUILD_DIR
+    mkdir chipdb
+    cd chipdb
+    for i in $(ls $WORK_DIR/chipdb/*.gz)
+    do
+        cp $i .
+        gunzip -f $(basename $i)
+    done
+
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
 
     # The first run of the build produces the Python shared library
