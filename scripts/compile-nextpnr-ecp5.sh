@@ -92,7 +92,7 @@ then
         -DSTATIC_BUILD=ON \
         -DUSE_OPENMP=ON \
         .
-    make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil" VERBOSE=1
+    make -j$J CXX="$CXX" LIBS="-Xpreprocessor -fopenmp -lomp -lm -fno-lto -ldl -lutil" VERBOSE=1
     cd ..
 elif [ ${ARCH:0:7} = "windows" ]
 then
