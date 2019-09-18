@@ -4,7 +4,7 @@ language: cpp
 matrix:
   include:
   - os: osx
-    env: TARGET=darwin MACOSX_DEPLOYMENT_TARGET=10.13
+    env: TARGET=darwin MACOSX_DEPLOYMENT_TARGET=10.10
     addons:
       homebrew:
         packages:
