@@ -5,7 +5,7 @@ set -e
 
 nextpnr_dir=nextpnr
 nextpnr_uri=https://github.com/xobs/nextpnr.git
-nextpnr_commit=7cda79f9b70c23b90a21f4a96af0c42bb15b3a66
+nextpnr_commit=187db92
 prjtrellis_dir=prjtrellis
 prjtrellis_uri=https://github.com/SymbiFlow/prjtrellis.git
 prjtrellis_commit=40129f3fe8cd9c09b8a19df480f18cde1042e6a0
@@ -61,12 +61,12 @@ then
         gunzip -f $(basename $i)
     done
 
-    cd $BUILD_DIR
-    svn co http://llvm.org/svn/llvm-project/openmp/trunk libomp
-    cd libomp
-    mkdir build && cd build
-    cmake -DCMAKE_INSTALL_PREFIX=/tmp/nextpnr -DLIBOMP_ENABLE_SHARED=off ..
-    make && make install
+    # cd $BUILD_DIR
+    # svn co http://llvm.org/svn/llvm-project/openmp/trunk libomp
+    # cd libomp
+    # mkdir build && cd build
+    # cmake -DCMAKE_INSTALL_PREFIX=/tmp/nextpnr -DLIBOMP_ENABLE_SHARED=off ..
+    # make && make install
 
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
     cmake \
@@ -82,7 +82,13 @@ then
     make install
 
     cd $BUILD_DIR/$nextpnr_dir
-    echo 'set(CMAKE_CXX_FLAGS_RELEASE "-Xpreprocessor -fopenmp -L/tmp/nextpnr/lib /tmp/nextpnr/lib/libomp.a -Wall -fPIC -O3 -g -pipe")' >> CmakeLists.txt
+    # echo 'set(CMAKE_CXX_FLAGS_RELEASE "-Xpreprocessor -fopenmp -L/tmp/nextpnr/lib /tmp/nextpnr/lib/libomp.a -Wall -fPIC -O3 -g -pipe")' >> CmakeLists.txt
+    rm -f CMakeLists.txt
+    wget https://raw.githubusercontent.com/xobs/nextpnr/master/CMakeLists.txt
+    cd ecp5
+    rm -f family.cmake
+    wget https://github.com/xobs/nextpnr/blob/master/ecp5/family.cmake
+    cd ..
     cmake -DARCH=ecp5 \
         -DTRELLIS_ROOT=$BUILD_DIR/$prjtrellis_dir \
         -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis \
@@ -96,12 +102,11 @@ then
         -DBUILD_GUI=OFF \
         -DBUILD_PYTHON=ON \
         -DBUILD_HEAP=ON \
-        -DCMAKE_CXX_FLAGS_RELEASE="-Xpreprocessor -fopenmp -lomp -fPIC -g -O3 -pipe" \
-        -DCMAKE_EXE_LINKER_FLAGS='-Xpreprocessor -fopenmp -L/tmp/nextpnr/lib -lomp -fno-lto /tmp/nextpnr/lib/libomp.a -ldl -lutil' \
+        -DCMAKE_CXX_FLAGS_RELEASE="-fPIC -g -O3 -pipe" \
+        -DCMAKE_EXE_LINKER_FLAGS='-fno-lto-ldl -lutil' \
         -DSTATIC_BUILD=ON \
-        -DUSE_OPENMP=ON \
         .
-    make -j$J CXX="$CXX" LIBS="-Xpreprocessor -fopenmp -lomp -lm -fno-lto -ldl -lutil" VERBOSE=1
+    make -j$J CXX="$CXX" LIBS="-lm -fno-lto -ldl -lutil" VERBOSE=1
     cd ..
 elif [ ${ARCH:0:7} = "windows" ]
 then
