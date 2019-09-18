@@ -88,6 +88,6 @@ if [ $ARCH == "darwin" ]; then
     mkdir -p $PACKAGE_DIR/$NAME
     pushd $PACKAGE_DIR/$NAME
     tar xjf $WORK_DIR/build-data/darwin/python-*.bz2
-    tar xjf $WORK_DIR/build-data/darwin/llvm-openmp-*.bz2
+    # tar xjf $WORK_DIR/build-data/darwin/llvm-openmp-*.bz2
     popd
 fi
