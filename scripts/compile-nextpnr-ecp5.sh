@@ -61,6 +61,13 @@ then
         gunzip -f $(basename $i)
     done
 
+    cd $BUILD_DIR
+    svn co http://llvm.org/svn/llvm-project/openmp/trunk libomp
+    cd libomp
+    mkdir build && cd build
+    cmake -DCMAKE_INSTALL_PREFIX=/tmp/nextpnr
+    make && make install
+
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
     cmake \
         -DBUILD_SHARED=OFF \
@@ -75,7 +82,7 @@ then
     make install
 
     cd $BUILD_DIR/$nextpnr_dir
-    echo 'set(CMAKE_CXX_FLAGS_RELEASE "-Xpreprocessor -fopenmp -L/tmp/nextpnr/lib -lomp -Wall -fPIC -O3 -g -pipe")' >> CmakeLists.txt
+    echo 'set(CMAKE_CXX_FLAGS_RELEASE "-Xpreprocessor -fopenmp -L/tmp/nextpnr/lib /tmp/nextpnr/lib/libomp.a -Wall -fPIC -O3 -g -pipe")' >> CmakeLists.txt
     cmake -DARCH=ecp5 \
         -DTRELLIS_ROOT=$BUILD_DIR/$prjtrellis_dir \
         -DPYTRELLIS_LIBDIR=$BUILD_DIR/$prjtrellis_dir/libtrellis \
@@ -90,7 +97,7 @@ then
         -DBUILD_PYTHON=ON \
         -DBUILD_HEAP=ON \
         -DCMAKE_CXX_FLAGS_RELEASE="-Xpreprocessor -fopenmp -lomp -fPIC -g -O3 -pipe" \
-        -DCMAKE_EXE_LINKER_FLAGS='-Xpreprocessor -fopenmp -L/tmp/nextpnr/lib -lomp -fno-lto -ldl -lutil' \
+        -DCMAKE_EXE_LINKER_FLAGS='-Xpreprocessor -fopenmp -L/tmp/nextpnr/lib -lomp -fno-lto /tmp/nextpnr/lib/libomp.a -ldl -lutil' \
         -DSTATIC_BUILD=ON \
         -DUSE_OPENMP=ON \
         .
