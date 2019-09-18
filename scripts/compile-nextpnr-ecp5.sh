@@ -65,7 +65,7 @@ then
     svn co http://llvm.org/svn/llvm-project/openmp/trunk libomp
     cd libomp
     mkdir build && cd build
-    cmake -DCMAKE_INSTALL_PREFIX=/tmp/nextpnr
+    cmake -DCMAKE_INSTALL_PREFIX=/tmp/nextpnr ..
     make && make install
 
     cd $BUILD_DIR/$prjtrellis_dir/libtrellis
