@@ -4,11 +4,11 @@
 set -e
 
 nextpnr_dir=nextpnr
-nextpnr_uri=https://github.com/xobs/nextpnr.git
-nextpnr_commit=7cda79f9b70c23b90a21f4a96af0c42bb15b3a66
+nextpnr_uri=https://github.com/YosysHQ/nextpnr.git
+nextpnr_commit=371d33146fcfda9a1c568f46fd1f5775cd4fb1be
 prjtrellis_dir=prjtrellis
 prjtrellis_uri=https://github.com/SymbiFlow/prjtrellis.git
-prjtrellis_commit=40129f3fe8cd9c09b8a19df480f18cde1042e6a0
+prjtrellis_commit=72fe507c2b445500d48e94e5bf6a9a636392823e
 
 # -- Setup
 . $WORK_DIR/scripts/build_setup.sh
