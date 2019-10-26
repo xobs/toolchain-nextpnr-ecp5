@@ -6,9 +6,11 @@ set -e
 nextpnr_dir=nextpnr
 nextpnr_uri=https://github.com/YosysHQ/nextpnr.git
 nextpnr_commit=371d33146fcfda9a1c568f46fd1f5775cd4fb1be
+
 prjtrellis_dir=prjtrellis
 prjtrellis_uri=https://github.com/SymbiFlow/prjtrellis.git
-prjtrellis_commit=72fe507c2b445500d48e94e5bf6a9a636392823e
+# Every time you update this, regenerate the chipdb files!
+prjtrellis_commit=88e28f5ebba8a31c0aea74c2b7fddd43846f9a56
 
 # -- Setup
 . $WORK_DIR/scripts/build_setup.sh
