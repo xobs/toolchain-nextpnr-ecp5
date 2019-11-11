@@ -1,5 +1,10 @@
 # Install dependencies script
 
+# Note: We specify python3.6 because as part of the nextpnr installation,
+# we extract the contents of build-data/linux/ to the installation directory
+# which includes support packages for python3.6.
+# If you update the python version here, you will need to replace the
+# deb files there.
 base_packages="build-essential pkg-config python3 python3.6-dev libpython3.6-dev cmake"
 cross_x64="libboost-dev libboost-filesystem-dev libboost-thread-dev \
            libboost-program-options-dev libboost-python-dev libboost-iostreams-dev \
