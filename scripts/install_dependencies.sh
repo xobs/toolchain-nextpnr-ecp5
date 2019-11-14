@@ -97,7 +97,8 @@ if [ $ARCH == "darwin" ]; then
     # Fix up the anaconda prefixes to the python path.
     for bin in 2to3 2to3-3.6 idle3 idle3.6 pydoc pydoc3 pydoc3.6 python3-config python3.6-config python3.6m-config pyvenv pyvenv-3.6
     do
-        sed -i 's|/opt/anaconda1anaconda2anaconda3/bin/python3.6|/usr/bin/env python3.6|g' bin/$bin
+        sed 's|/opt/anaconda1anaconda2anaconda3/bin/python3.6|/usr/bin/env python3.6|g' bin/$bin > /tmp/sedfix
+        mv /tmp/sedfix bin/$bin
     done
     popd
 fi
