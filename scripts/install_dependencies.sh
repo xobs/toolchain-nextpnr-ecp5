@@ -93,6 +93,11 @@ if [ $ARCH == "darwin" ]; then
     mkdir -p $PACKAGE_DIR/$NAME
     pushd $PACKAGE_DIR/$NAME
     tar xjf $WORK_DIR/build-data/darwin/python-*.bz2
-    # tar xjf $WORK_DIR/build-data/darwin/llvm-openmp-*.bz2
+
+    # Fix up the anaconda prefixes to the python path.
+    for bin in 2to3 2to3-3.6 idle3 idle3.6 pydoc pydoc3 pydoc3.6 python3-config python3.6-config python3.6m-config pyvenv pyvenv-3.6
+    do
+        sed -i 's|/opt/anaconda1anaconda2anaconda3/bin/python3.6|/usr/bin/env python3.6|g' bin/$bin
+    done
     popd
 fi
