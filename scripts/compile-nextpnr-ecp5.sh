@@ -157,8 +157,9 @@ else
         ar p $pkg data.tar.xz | tar xvJ
     done
     mkdir -p $PACKAGE_DIR/$NAME
-    mv usr/* $PACKAGE_DIR/$NAME
-    cd ..
+    cd usr
+    tar cf - . | ( cd $PACKAGE_DIR/$NAME ; tar xf - )
+    cd ../..
 fi || exit 1
 
 # -- Copy the executables to the bin dir
